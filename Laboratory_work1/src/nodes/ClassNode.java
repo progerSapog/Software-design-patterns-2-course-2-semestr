@@ -1,6 +1,8 @@
 package nodes;
 
+import propertys.DataProperty;
 import propertys.ObjectProperty;
+import propertys.Property;
 
 /**
  * Главный узел графовой структуры - служит корнем графа
@@ -40,6 +42,8 @@ public class ClassNode extends Node
      * */
     public void addChild (Node node) throws ChildNodeException
     {
+        Property property = null;
+
         //Если дочерний узел не принадлежит типу ClassNode или IndividualNode,
         //то выбрасываем исключение связей узлов
         if ((!(node instanceof ClassNode)) && (!(node instanceof IndividualNode)))
@@ -71,6 +75,9 @@ public class ClassNode extends Node
             {
                 this.state = this.state + ", имеет индивида";
             }
+
+            //Создание св-ва данных
+            property = new DataProperty(node);
         }
         //Иначе если тип переданного узла ClassNode то у него устанавливается
         //статус Подкласс
@@ -84,10 +91,12 @@ public class ClassNode extends Node
             {
                 this.state = this.state + ", имеет подкласс";
             }
+
+            //создание объектного свойства
+            property = new ObjectProperty(node);
         }
 
-        //создание свойства объекта
-        ObjectProperty property = new ObjectProperty(node);
+
         propertyList.add(property);
     }
 
