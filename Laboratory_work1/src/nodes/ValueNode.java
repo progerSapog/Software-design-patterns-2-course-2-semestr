@@ -23,6 +23,11 @@ public class ValueNode extends Node
         this.propertyList = null;
     }
 
+    /**
+     * Метод для задания родителя данного узла
+     *
+     * @param parent - ссылка на родителя
+     * */
     public void setParent(AttributeNode parent)
     {
         this.parent = parent;

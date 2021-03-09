@@ -39,11 +39,21 @@ public class AttributeNode extends Node
         propertyList.add(property);
     }
 
+    /**
+     * Метод для задания родителя данного узла
+     *
+     * @param parent - ссылка на родителя
+     * */
     public void setParent(IndividualNode parent)
     {
         this.parent = parent;
     }
 
+    /**
+     * метод для получения ссылки на родителя данного узла
+     *
+     * @return - ссвылку на родителя данного узла
+     * */
     public IndividualNode getParent()
     {
         return parent;

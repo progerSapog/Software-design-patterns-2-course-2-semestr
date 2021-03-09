@@ -47,17 +47,16 @@ public class IndividualNode extends Node
     public void addID()
     {
         addAttribute("ID", Integer.toString(parent.getIndividualCount()));
-        System.out.println(parent.getIndividualCount());
     }
 
     /**
-     * Метод для указания родителя
+     * Метод для задания родителя данного узла
      *
-     * @param node - ссылка на родителя
+     * @param parent - ссылка на родителя
      * */
-    public void setParent(ClassNode node)
+    public void setParent(ClassNode parent)
     {
-        this.parent = node;
+        this.parent = parent;
     }
 
     /**

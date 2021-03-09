@@ -42,7 +42,7 @@ public class ClassNode extends Node
      * */
     public void addChild (Node node) throws ChildNodeException
     {
-        Property property = null;
+        Property property;
 
         //Если дочерний узел не принадлежит типу ClassNode или IndividualNode,
         //то выбрасываем исключение связей узлов
@@ -110,9 +110,24 @@ public class ClassNode extends Node
         return this.individualCount;
     }
 
+    /**
+     * Метод для задания родителя данного узла
+     *
+     * @param parent - ссылка на родителя
+     * */
     public void setParent(ClassNode parent)
     {
         this.parent = parent;
+    }
+
+    public ClassNode getParent()
+    {
+        return parent;
+    }
+
+    public String getState()
+    {
+        return state;
     }
 
     @Override
