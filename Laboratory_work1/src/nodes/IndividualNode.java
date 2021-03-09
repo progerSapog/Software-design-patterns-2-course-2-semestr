@@ -5,15 +5,18 @@ import propertys.DataProperty;
 /**
  * Класс Индивид - экземпляр класс/подкласса типа
  * ClassNode
+ *
+ * @see ClassNode
+ * @see AttributeNode
+ * @see ValueNode
  * */
 public class IndividualNode extends Node
 {
-    private ClassNode parent;    //ссылка на родителя
-
+    private ClassNode parent;
     /**
      * Метод для добавления атрибута индивиду
-     * Автоматичски создает узел Атрибут, который в свою очередь создает
-     * узел Value
+     * Создает узел атрибут с именем атрибута,
+     * так же создается узел
      * Формирует связь типа DataProperty
      *
      * @param parameterName - имя параметра
@@ -22,6 +25,7 @@ public class IndividualNode extends Node
     public void addAttribute(String parameterName, String value)
     {
         AttributeNode node = new AttributeNode(parameterName, value);
+        node.setParent(this);
         addChildNode(node);
     }
 
@@ -29,20 +33,21 @@ public class IndividualNode extends Node
      * Конструктор с паметрами
      *
      * @param name   - имя данного индивида
-     * @param parent - ссылка на родителя
      * */
-    public IndividualNode(String name, ClassNode parent)
+    public IndividualNode(String name)
     {
         this.data = name;
-        this.parent = parent;
 
         //Поскольку мы уже указали родителя, то увеличиваем
         //счетчик индивидов узла ClassNode
-        parent.increaseIndividualCounter();
 
         //Автоматический добавляем атрибут - ID
+    }
+
+    public void addID()
+    {
         addAttribute("ID", Integer.toString(parent.getIndividualCount()));
-        System.out.println(parent.getIndividualCount() + 1);
+        System.out.println(parent.getIndividualCount());
     }
 
     /**
@@ -67,6 +72,7 @@ public class IndividualNode extends Node
         DataProperty property = new DataProperty(node);
         propertyList.add(property);
     }
+
 
     @Override
     public String toString() {

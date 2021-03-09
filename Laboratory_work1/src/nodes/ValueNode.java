@@ -9,8 +9,7 @@ package nodes;
  * */
 public class ValueNode extends Node
 {
-    private AttributeNode parent;    //Ссылка ана родителя
-
+    private AttributeNode parent;
     /**
      * Конструктор с параметрами
      *
@@ -24,11 +23,15 @@ public class ValueNode extends Node
         this.propertyList = null;
     }
 
+    public void setParent(AttributeNode parent)
+    {
+        this.parent = parent;
+    }
+
     @Override
     public String toString() {
         return "ValueNode{" +
                 "name='" + data + '\'' +
-                ", propertyList=" + propertyList +
                 ", propertyList=" + propertyList +
                 '}';
     }

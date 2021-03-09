@@ -11,6 +11,7 @@ import propertys.DataProperty;
  * */
 public class AttributeNode extends Node
 {
+    private IndividualNode parent;
     /**
      * Конструктор с параметрами
      *
@@ -36,6 +37,16 @@ public class AttributeNode extends Node
     {
         DataProperty property = new DataProperty(node);
         propertyList.add(property);
+    }
+
+    public void setParent(IndividualNode parent)
+    {
+        this.parent = parent;
+    }
+
+    public IndividualNode getParent()
+    {
+        return parent;
     }
 
     @Override

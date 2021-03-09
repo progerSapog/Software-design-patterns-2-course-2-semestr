@@ -11,7 +11,9 @@ import java.util.List;
  * */
 public abstract class Node
 {
-    protected Node parent;
+    //При указание поля родитель общего типа в некоторых узлах при
+    //данной реализации оно дублируется
+
     protected String data;    //Поля для хранения данных
 
     //Список связей с дочерними узлами
@@ -25,10 +27,5 @@ public abstract class Node
     public String getData()
     {
         return data;
-    }
-
-    public void setParent(Node parent)
-    {
-        this.parent = parent;
     }
 }

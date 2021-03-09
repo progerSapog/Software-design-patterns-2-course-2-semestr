@@ -7,9 +7,11 @@ import propertys.ObjectProperty;
  * и/или родителем для узлов типа IndividualNode
  *
  * @see IndividualNode
+ * @see ObjectProperty
  * */
 public class ClassNode extends Node
 {
+    private ClassNode parent;
     private int individualCount = 0;    //счетчик индивидов для которых данный
                                         //узе является родительским
 
@@ -30,6 +32,7 @@ public class ClassNode extends Node
 
     /**
      * Медот для добавления дочернего узла
+     * Формирует связь - свойство объекта
      *
      * @param node                - дочерний узел
      * @throws ChildNodeException - исключение созданий связей
@@ -37,9 +40,30 @@ public class ClassNode extends Node
      * */
     public void addChild (Node node) throws ChildNodeException
     {
+        //Если дочерний узел не принадлежит типу ClassNode или IndividualNode,
+        //то выбрасываем исключение связей узлов
+        if ((!(node instanceof ClassNode)) && (!(node instanceof IndividualNode)))
+        {
+            throw new ChildNodeException("Для узла типа" + this.getClass() + " дочерним узлом могут быть" +
+                    " узлы: " + ClassNode.class + " или " + IndividualNode.class);
+        }
+
         //Если дочерний узел принадлжеит классу IndividualNode
         if (node instanceof IndividualNode)
         {
+            //Установка родителя при помощи метода setParent класса
+            //IndividualNode, где конкретно указано какой тип
+            //Родителя может быть.
+            //при использовании общего метода setParent последюущий метод
+            //addID бросает исключение
+            ((IndividualNode)node).setParent(this);
+
+            //Увеличиваем счетчик индивидов для данного узла
+            individualCount++;
+
+            //Для узла индивида автоматически добавляем поле ID
+            ((IndividualNode) node).addID();
+
             //Если в состоянии узла еще не указано, что он имеет
             //индивида к текущему состоянию приписываем:
             //имеет индивида
@@ -50,8 +74,8 @@ public class ClassNode extends Node
         }
         //Иначе если тип переданного узла ClassNode то у него устанавливается
         //статус Подкласс
-        else if (node instanceof ClassNode)
-        {
+        else {
+            ((ClassNode)node).setParent(this);
             ((ClassNode) node).state = "Подкласс";
 
             //Если у текущего узла не указано в состоянии, что он имеет подкласс
@@ -61,27 +85,25 @@ public class ClassNode extends Node
                 this.state = this.state + ", имеет подкласс";
             }
         }
-        else
-        {
-            throw new ChildNodeException("Для узла типа" + this.getClass() + " дочерним узлом могут быть" +
-                    " узлы: " + ClassNode.class + " или " + IndividualNode.class);
-        }
-        //Для дочернего узла устанавливаем родителя - текущий узел
-        node.setParent(this);
 
         //создание свойства объекта
         ObjectProperty property = new ObjectProperty(node);
         propertyList.add(property);
     }
 
+    /**
+     * Метод для получения счетчика индивидов данного класса
+     *
+     * @return значение счетчика индивидов
+     * */
     public int getIndividualCount()
     {
         return this.individualCount;
     }
 
-    public void increaseIndividualCounter()
+    public void setParent(ClassNode parent)
     {
-        this.individualCount++;
+        this.parent = parent;
     }
 
     @Override
