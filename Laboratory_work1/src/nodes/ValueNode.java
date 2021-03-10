@@ -9,28 +9,17 @@ package nodes;
  * */
 public class ValueNode extends Node
 {
-    private AttributeNode parent;
     /**
      * Конструктор с параметрами
      *
      * @param data   - значение данного узла
      * @param parent - родитель данного узла
      * */
-    public ValueNode(String data, AttributeNode parent)
+    public ValueNode(String data, Node parent)
     {
         this.parent = parent;
         this.data = data;
         this.propertyList = null;
-    }
-
-    /**
-     * Метод для задания родителя данного узла
-     *
-     * @param parent - ссылка на родителя
-     * */
-    public void setParent(AttributeNode parent)
-    {
-        this.parent = parent;
     }
 
     @Override

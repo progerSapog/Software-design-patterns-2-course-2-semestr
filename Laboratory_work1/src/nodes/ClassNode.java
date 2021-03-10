@@ -1,5 +1,6 @@
 package nodes;
 
+import exceptions.ChildNodeException;
 import propertys.DataProperty;
 import propertys.ObjectProperty;
 import propertys.Property;
@@ -13,7 +14,6 @@ import propertys.Property;
  * */
 public class ClassNode extends Node
 {
-    private ClassNode parent;
     private int individualCount = 0;    //счетчик индивидов для которых данный
                                         //узе является родительским
 
@@ -60,7 +60,7 @@ public class ClassNode extends Node
             //Родителя может быть.
             //при использовании общего метода setParent последюущий метод
             //addID бросает исключение
-            ((IndividualNode)node).setParent(this);
+            node.setParent(this);
 
             //Увеличиваем счетчик индивидов для данного узла
             individualCount++;
@@ -82,7 +82,7 @@ public class ClassNode extends Node
         //Иначе если тип переданного узла ClassNode то у него устанавливается
         //статус Подкласс
         else {
-            ((ClassNode)node).setParent(this);
+            node.setParent(this);
             ((ClassNode) node).state = "Подкласс";
 
             //Если у текущего узла не указано в состоянии, что он имеет подкласс
@@ -110,20 +110,6 @@ public class ClassNode extends Node
         return this.individualCount;
     }
 
-    /**
-     * Метод для задания родителя данного узла
-     *
-     * @param parent - ссылка на родителя
-     * */
-    public void setParent(ClassNode parent)
-    {
-        this.parent = parent;
-    }
-
-    public ClassNode getParent()
-    {
-        return parent;
-    }
 
     public String getState()
     {

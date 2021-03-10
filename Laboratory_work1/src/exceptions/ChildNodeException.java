@@ -1,4 +1,6 @@
-package nodes;
+package exceptions;
+
+import nodes.ClassNode;
 
 /**
  * Класс исключений

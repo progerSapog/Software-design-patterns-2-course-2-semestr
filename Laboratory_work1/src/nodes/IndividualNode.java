@@ -12,7 +12,6 @@ import propertys.DataProperty;
  * */
 public class IndividualNode extends Node
 {
-    private ClassNode parent;
     /**
      * Метод для добавления атрибута индивиду
      * Создает узел атрибут с именем атрибута,
@@ -37,27 +36,16 @@ public class IndividualNode extends Node
     public IndividualNode(String name)
     {
         this.data = name;
-
-        //Поскольку мы уже указали родителя, то увеличиваем
-        //счетчик индивидов узла ClassNode
-
-        //Автоматический добавляем атрибут - ID
-    }
-
-    public void addID()
-    {
-        addAttribute("ID", Integer.toString(parent.getIndividualCount()));
     }
 
     /**
-     * Метод для задания родителя данного узла
-     *
-     * @param parent - ссылка на родителя
+     * Метод для получения ID от родителя
      * */
-    public void setParent(ClassNode parent)
+    public void addID()
     {
-        this.parent = parent;
+        addAttribute("ID", Integer.toString(((ClassNode)parent).getIndividualCount()));
     }
+
 
     /**
      * Метод для добавления дочернего узла

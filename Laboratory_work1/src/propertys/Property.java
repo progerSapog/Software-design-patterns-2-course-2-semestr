@@ -12,7 +12,7 @@ import nodes.Node;
  * */
 public abstract class Property
 {
-    protected Node childNode;    //Ссылка на родителя
+    protected Node childNode;    //Ссылка на дочерний узел
 
     /**
      * Конструктор с параметром
@@ -25,9 +25,13 @@ public abstract class Property
         this.childNode = childNode;
     }
 
-//    //Скорее всего не нужны метод
-//    public boolean hasSubClass()
-//    {
-//        return this.childNode instanceof ClassNode;
-//    }
+    /**
+     * Метод для получения ссылки на дочерний узел
+     *
+     * @return - ссылка на дочерний узел
+     * */
+    public Node getChildNode()
+    {
+        return childNode;
+    }
 }
