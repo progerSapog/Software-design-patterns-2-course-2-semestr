@@ -66,7 +66,8 @@ public class Main
 
             graphPrinter.print(classNode3);
 
-            System.out.println("end");
+            System.out.println();
+            System.out.println("\t\t\t\t\u001B[31m Конец работы...\u001B[0m");
         }
         catch (ChildNodeException e)
         {

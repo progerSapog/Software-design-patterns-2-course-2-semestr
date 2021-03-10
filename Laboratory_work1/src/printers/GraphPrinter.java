@@ -24,8 +24,6 @@ public class GraphPrinter implements Printable<ClassNode>
     //изменения цвета текста в консоли
     private static final String RESET = "\u001B[0m";
     private static final String RED = "\u001B[31m";
-    private static final String PURPLE = "\u001B[35m";
-    private static final String CYAN = "\u001B[36m";
     private static final String GREEN = "\u001B[32m";
     private static final String YELLOW = "\u001B[33m";
 
@@ -66,6 +64,9 @@ public class GraphPrinter implements Printable<ClassNode>
         //Если передана пустая ссылка, то завершение работы
         if (graph == null) return;
 
+        System.out.println("\t\tПредставление графовой структуры в виде списков смежностей: ");
+        System.out.println();
+
         System.out.print("Обозначения: ");
         System.out.print(RED    + "узел дерева, ");
         System.out.print(YELLOW + "подкласс, ");
@@ -73,8 +74,7 @@ public class GraphPrinter implements Printable<ClassNode>
         System.out.println();
         System.out.println();
 
-        System.out.println("\t\tПредставление графовой структуры в виде списков смежностей: ");
-        System.out.println();
+
 
         //Создаем очередь для хранения узлов
         Queue<Node> nodeQueue = new LinkedList<>();
