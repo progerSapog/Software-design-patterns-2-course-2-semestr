@@ -57,14 +57,4 @@ public abstract class Node
     {
         return propertyList;
     }
-
-    /**
-     * Метод, проверяющий наличие дочерних узлов
-     *
-     * @return - true если есть потомки
-     * */
-    public boolean hasChild()
-    {
-        return !propertyList.isEmpty();
-    }
 }

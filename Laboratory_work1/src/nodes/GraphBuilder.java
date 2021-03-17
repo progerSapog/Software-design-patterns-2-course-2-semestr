@@ -9,7 +9,7 @@ import java.util.Scanner;
 /**
  * Класс, реализующий автомат для создания графовой структуры
  * */
-public class GraphGenerator
+public class GraphBuilder
 {
     //Константы для хранения последовательностей для
     //изменения цвета текста в консоли
@@ -24,7 +24,7 @@ public class GraphGenerator
      * создавать объект данного класса, то запрящаем
      * создание объекта
      * */
-    private GraphGenerator() {
+    private GraphBuilder() {
     }
 
     /**
@@ -169,6 +169,7 @@ public class GraphGenerator
                             nodeQueue.offer(node);
                             break;
                         }
+
                         //Создание нового индивида
                         case ("2"): {
                             System.out.print("Введите имя индивида: ");

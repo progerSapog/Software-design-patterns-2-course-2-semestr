@@ -1,6 +1,6 @@
 import exceptions.ChildNodeException;
 import nodes.ClassNode;
-import nodes.GraphGenerator;
+import nodes.GraphBuilder;
 import nodes.IndividualNode;
 import printers.GraphPrinter;
 
@@ -10,15 +10,16 @@ public class Main
     public static void main(String[] args)
     {
         try {
+            //Вызов метода для создания графовой структуры
+            ClassNode classNode = GraphBuilder.createNewGraph();
+
             //Получение ссылки на едиственный экземпляр класса GraphPrinter
             GraphPrinter graphPrinter = GraphPrinter.getInstance();
-
-            //Вызов метода для создания графовой структуры
-//            ClassNode classNode = GraphGenerator.createNewGraph();
 
             //Пустой класс - возможность создавать пустые класс (Как в задании написано)
             //Состояние: класс
             ClassNode classNode1 = new ClassNode("Пустой класс");
+            graphPrinter.print(classNode1);
 
             //Класс студент
             //Состояние: класс, содержит индивида
@@ -38,6 +39,8 @@ public class Main
             classNode2.addChild(individualNode1);
             classNode2.addChild(individualNode2);
             classNode2.addChild(individualNode3);
+
+            graphPrinter.print(classNode2);
 
             //Класс Человек
             //Состояние: Класс, имеет индивидаб имеет подкласс
@@ -64,7 +67,7 @@ public class Main
             classNode3.addChild(classNode5);
             classNode3.addChild(individualNode6);
 
-            graphPrinter.print(classNode3);
+            graphPrinter.print(classNode);
 
             System.out.println();
             System.out.println("\t\t\t\t\u001B[31m Конец работы...\u001B[0m");

@@ -39,7 +39,8 @@ public class AttributeNode extends Node
     }
 
     @Override
-    public String toString() {
+    public String toString()
+    {
         return "AttributeNode{" +
                 "name='" + data + '\'' +
                 ", propertyList=" + propertyList +
