@@ -9,6 +9,10 @@ import propertys.DataProperty;
  * @see ClassNode
  * @see AttributeNode
  * @see ValueNode
+ *
+ * @author Vladislav Sapozhnikov 19-IVT-3
+ * @author Valerii Sukhorukov    19-IVT-3
+ * @author Vyacheslav Mostashov  19-IVT-3
  * */
 public class IndividualNode extends Node
 {
@@ -58,15 +62,5 @@ public class IndividualNode extends Node
     {
         DataProperty property = new DataProperty(node);
         propertyList.add(property);
-    }
-
-
-    @Override
-    public String toString() {
-        return "IndividualNode{" +
-                "parent=" + parent +
-                ", name='" + data + '\'' +
-                ", propertyList=" + propertyList +
-                '}';
     }
 }

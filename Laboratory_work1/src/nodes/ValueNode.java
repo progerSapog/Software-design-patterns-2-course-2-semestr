@@ -6,6 +6,12 @@ package nodes;
  * у узла типа IndividualNode
  *
  * Содержит значение Атрибута
+ *
+ * @see nodes.AttributeNode
+ *
+ * @author Vladislav Sapozhnikov 19-IVT-3
+ * @author Valerii Sukhorukov    19-IVT-3
+ * @author Vyacheslav Mostashov  19-IVT-3
  * */
 public class ValueNode extends Node
 {
@@ -20,13 +26,5 @@ public class ValueNode extends Node
         this.parent = parent;
         this.data = data;
         this.propertyList = null;
-    }
-
-    @Override
-    public String toString() {
-        return "ValueNode{" +
-                "name='" + data + '\'' +
-                ", propertyList=" + propertyList +
-                '}';
     }
 }

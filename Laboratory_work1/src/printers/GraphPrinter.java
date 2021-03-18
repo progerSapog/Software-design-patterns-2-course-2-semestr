@@ -15,6 +15,10 @@ import java.util.Queue;
  *
  * @see printers.Printable
  * @see ClassNode
+ *
+ * @author Vladislav Sapozhnikov 19-IVT-3
+ * @author Valerii Sukhorukov    19-IVT-3
+ * @author Vyacheslav Mostashov  19-IVT-3
  * */
 public class GraphPrinter implements Printable<ClassNode>
 {
@@ -73,7 +77,6 @@ public class GraphPrinter implements Printable<ClassNode>
         System.out.print(GREEN  + "индивид." + RESET);
         System.out.println();
         System.out.println();
-
 
 
         //Создаем очередь для хранения узлов

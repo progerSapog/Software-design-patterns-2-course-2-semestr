@@ -10,7 +10,12 @@ import nodes.ClassNode;
  * В остальных узлах нет метода для задания потомка, который
  * принимает узел общего класса - родителя Node
  *
- * @see ClassNode
+ * @see nodes.ClassNode
+ * @see nodes.IndividualNode
+ *
+ * @author Vladislav Sapozhnikov 19-IVT-3
+ * @author Valerii Sukhorukov    19-IVT-3
+ * @author Vyacheslav Mostashov  19-IVT-3
  * */
 public class ChildNodeException extends Exception
 {

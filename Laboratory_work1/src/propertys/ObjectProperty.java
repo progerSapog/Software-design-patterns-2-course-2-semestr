@@ -11,6 +11,10 @@ import nodes.Node;
  * @see nodes.IndividualNode
  * @see nodes.AttributeNode
  * @see nodes.ValueNode
+ *
+ * @author Vladislav Sapozhnikov 19-IVT-3
+ * @author Valerii Sukhorukov    19-IVT-3
+ * @author Vyacheslav Mostashov  19-IVT-3
  * */
 public class ObjectProperty extends Property
 {

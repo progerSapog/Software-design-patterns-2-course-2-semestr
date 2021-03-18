@@ -1,77 +1,42 @@
 import exceptions.ChildNodeException;
 import nodes.ClassNode;
-import nodes.GraphBuilder;
-import nodes.IndividualNode;
+import builder.GraphBuilder;
 import printers.GraphPrinter;
 
+/**
+ * Класс, содержащий точку входа в программу - метод main.
+ * Язык: java
+ *
+ * Реализация первой лабораторной работы по диспилине: Шаблоны проектирования ПО
+ *  Вариант №8
+ *
+ * Текст задания: https://github.com/progerSapog/Software-design-patterns-2-course-2-semestr
+ *
+ * @release:     10.03.21
+ * @last_update: 18.03.21
+ *
+ * @author Vladislav Sapozhnikov 19-IVT-3 (github: https://github.com/progerSapog )
+ * @author Valerii Sukhorukov    19-IVT-3 (github: https://github.com/Valery-S    )
+ * @author Vyacheslav Mostashov  19-IVT-3 (github: https://github.com/Vyacheslav-M)
+ */
 public class Main
 {
-
     public static void main(String[] args)
     {
-        try {
+        try
+        {
             //Вызов метода для создания графовой структуры
             ClassNode classNode = GraphBuilder.createNewGraph();
 
             //Получение ссылки на едиственный экземпляр класса GraphPrinter
             GraphPrinter graphPrinter = GraphPrinter.getInstance();
 
-            //Пустой класс - возможность создавать пустые класс (Как в задании написано)
-            //Состояние: класс
-            ClassNode classNode1 = new ClassNode("Пустой класс");
-            graphPrinter.print(classNode1);
-
-            //Класс студент
-            //Состояние: класс, содержит индивида
-            //Содержит 3 Индивида: Игорь, Коля, Петя
-            //У Игоря и Пети только 1 атрибут - ID (ID задается автоматически)
-            //У Коли 3 атрибута: ID, Пол, Возраст
-            ClassNode classNode2 = new ClassNode("Студент");
-            IndividualNode individualNode1 = new IndividualNode("Игорь");
-
-            IndividualNode individualNode2 = new IndividualNode("Коля");
-            individualNode2.addAttribute("Пол", "М");
-            individualNode2.addAttribute("Возраст", "19");
-
-
-            IndividualNode individualNode3 = new IndividualNode("Петя");
-
-            classNode2.addChild(individualNode1);
-            classNode2.addChild(individualNode2);
-            classNode2.addChild(individualNode3);
-
-            graphPrinter.print(classNode2);
-
-            //Класс Человек
-            //Состояние: Класс, имеет индивидаб имеет подкласс
-            //Содержит пустой подкласс Пустой класс, класс с Индвидами - Женщина,
-            //индивида - василия
-            //
-            //Подкласс женщина имеет индивида с автоматический созданным id
-            //и индивида с атрибутами
-            ClassNode classNode3 = new ClassNode("Человек");
-            ClassNode classNode4 = new ClassNode("Пустой класс");
-            ClassNode classNode5 = new ClassNode("Женщина");
-
-            IndividualNode individualNode4 = new IndividualNode("Оля");
-            individualNode4.addAttribute("Возраст", "32");
-            individualNode4.addAttribute("Отдел", "HR");
-
-            IndividualNode individualNode5 = new IndividualNode("Варя");
-            IndividualNode individualNode6 = new IndividualNode("Василий");
-
-            classNode5.addChild(individualNode4);
-            classNode5.addChild(individualNode5);
-
-            classNode3.addChild(classNode4);
-            classNode3.addChild(classNode5);
-            classNode3.addChild(individualNode6);
-
+            //Вывод информации по графу в консоль
             graphPrinter.print(classNode);
 
-            System.out.println();
-            System.out.println("\t\t\t\t\u001B[31m Конец работы...\u001B[0m");
+            System.out.println("\n\t\t\t\t\u001B[31m Конец работы...\u001B[0m");
         }
+        //Обработка исключений реализованных в рамке данной работы
         catch (ChildNodeException e)
         {
             e.printStackTrace();

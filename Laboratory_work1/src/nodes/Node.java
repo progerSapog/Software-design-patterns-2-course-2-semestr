@@ -8,6 +8,15 @@ import java.util.List;
 /**
  * Абстрактный класс, содержащий основные поля
  * и методы узлов графовой структуры
+ *
+ * @see ClassNode
+ * @see IndividualNode
+ * @see AttributeNode
+ * @see ValueNode
+ *
+ * @author Vladislav Sapozhnikov 19-IVT-3
+ * @author Valerii Sukhorukov    19-IVT-3
+ * @author Vyacheslav Mostashov  19-IVT-3
  * */
 public abstract class Node
 {

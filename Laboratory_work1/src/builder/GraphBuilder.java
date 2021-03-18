@@ -1,6 +1,9 @@
-package nodes;
+package builder;
 
 import exceptions.ChildNodeException;
+import nodes.ClassNode;
+import nodes.IndividualNode;
+import nodes.Node;
 
 import java.util.LinkedList;
 import java.util.Queue;
@@ -8,6 +11,16 @@ import java.util.Scanner;
 
 /**
  * Класс, реализующий автомат для создания графовой структуры
+ *
+ * @see nodes.Node
+ * @see nodes.ClassNode
+ * @see nodes.IndividualNode
+ * @see nodes.AttributeNode
+ * @see nodes.ValueNode
+ *
+ * @author Vladislav Sapozhnikov 19-IVT-3
+ * @author Valerii Sukhorukov    19-IVT-3
+ * @author Vyacheslav Mostashov  19-IVT-3
  * */
 public class GraphBuilder
 {

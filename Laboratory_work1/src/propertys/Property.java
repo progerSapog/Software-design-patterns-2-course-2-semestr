@@ -9,6 +9,10 @@ import nodes.Node;
  * @see DataProperty
  * @see ObjectProperty
  * @see Node
+ *
+ * @author Vladislav Sapozhnikov 19-IVT-3
+ * @author Valerii Sukhorukov    19-IVT-3
+ * @author Vyacheslav Mostashov  19-IVT-3
  * */
 public abstract class Property
 {

@@ -8,6 +8,13 @@ import propertys.DataProperty;
  * у узла типа IndividualNode
  *
  * Содержит значение Имя атрибута и ссылку на значение
+ *
+ * @see Node
+ * @see ValueNode
+ *
+ * @author Vladislav Sapozhnikov 19-IVT-3
+ * @author Valerii Sukhorukov    19-IVT-3
+ * @author Vyacheslav Mostashov  19-IVT-3
  * */
 public class AttributeNode extends Node
 {
@@ -36,14 +43,5 @@ public class AttributeNode extends Node
     {
         DataProperty property = new DataProperty(node);
         propertyList.add(property);
-    }
-
-    @Override
-    public String toString()
-    {
-        return "AttributeNode{" +
-                "name='" + data + '\'' +
-                ", propertyList=" + propertyList +
-                '}';
     }
 }

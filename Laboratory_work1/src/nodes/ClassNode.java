@@ -9,8 +9,14 @@ import propertys.Property;
  * Главный узел графовой структуры - служит корнем графа
  * и/или родителем для узлов типа IndividualNode
  *
+ * @see Node
  * @see IndividualNode
  * @see ObjectProperty
+ * @see exceptions.ChildNodeException
+ *
+ * @author Vladislav Sapozhnikov 19-IVT-3
+ * @author Valerii Sukhorukov    19-IVT-3
+ * @author Vyacheslav Mostashov  19-IVT-3
  * */
 public class ClassNode extends Node
 {
@@ -24,11 +30,11 @@ public class ClassNode extends Node
      * Поскольку нет родителя, то узел
      * приобритает состояние класс
      *
-     * @param name   - имя данного узла
+     * @param data   - имя данного узла
      * */
-    public ClassNode(String name)
+    public ClassNode(String data)
     {
-        this.data = name;
+        this.data = data;
         this.state = "Класс";
     }
 
@@ -42,8 +48,6 @@ public class ClassNode extends Node
      * */
     public void addChild (Node node) throws ChildNodeException
     {
-        Property property;
-
         //Если дочерний узел не принадлежит типу ClassNode или IndividualNode,
         //то выбрасываем исключение связей узлов
         if ((!(node instanceof ClassNode)) && (!(node instanceof IndividualNode)))
@@ -51,6 +55,8 @@ public class ClassNode extends Node
             throw new ChildNodeException("Для узла типа" + this.getClass() + " дочерним узлом могут быть" +
                     " узлы: " + ClassNode.class + " или " + IndividualNode.class);
         }
+
+        Property property;
 
         //Если дочерний узел принадлжеит классу IndividualNode
         if (node instanceof IndividualNode)
@@ -81,7 +87,8 @@ public class ClassNode extends Node
         }
         //Иначе если тип переданного узла ClassNode то у него устанавливается
         //статус Подкласс
-        else {
+        else
+        {
             node.setParent(this);
             ((ClassNode) node).state = "Подкласс";
 
@@ -96,12 +103,11 @@ public class ClassNode extends Node
             property = new ObjectProperty(node);
         }
 
-
         propertyList.add(property);
     }
 
     /**
-     * Метод для получения счетчика индивидов данного класса
+     * Метод для получения счетчика индивидов данного класса (узла)
      *
      * @return значение счетчика индивидов
      * */
@@ -110,20 +116,13 @@ public class ClassNode extends Node
         return this.individualCount;
     }
 
-
+    /**
+     * Метод для получения состояния данного узла
+     *
+     * @return значение счетчика индивидов
+     * */
     public String getState()
     {
         return state;
-    }
-
-    @Override
-    public String toString() {
-        return "ClassNode{" +
-                "parent=" + parent +
-                ", individualCount=" + individualCount +
-                ", state='" + state + '\'' +
-                ", name='" + data + '\'' +
-                ", propertyList=" + propertyList +
-                '}';
     }
 }
