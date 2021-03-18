@@ -50,7 +50,6 @@ public class IndividualNode extends Node
         addAttribute("ID", Integer.toString(((ClassNode)parent).getIndividualCount()));
     }
 
-
     /**
      * Метод для добавления дочернего узла
      * Потомком данного вида узла может быть только узел типа
