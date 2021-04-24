@@ -2,17 +2,17 @@
 
 # IntelliJ project files
 # ЛР1
-/Laboratory_work1/.idea/*
+/Laboratory_work1/.idea
 /Laboratory_work1/*.iml
-/Laboratory_work1/out/*
-/Laboratory_work1/gen/*
-/Laboratory_work1/target/*
+/Laboratory_work1/out
+/Laboratory_work1/gen
+/Laboratory_work1/target
 
 # ЛР2
-/Laboratory_work2/.idea/*
-/Laboratory_work2/.iml
-/Laboratory_work2/out/*
-/Laboratory_work2/gen/*
-/Laboratory_work2/target/*
+/Laboratory_work2/.idea
+/Laboratory_work2/*.iml
+/Laboratory_work2/out
+/Laboratory_work2/gen
+/Laboratory_work2/target
 
 /Оформление/diagram
