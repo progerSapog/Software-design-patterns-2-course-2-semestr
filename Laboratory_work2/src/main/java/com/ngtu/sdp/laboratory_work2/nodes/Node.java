@@ -15,6 +15,17 @@ public abstract class Node
     public Node() {
     }
 
+    public Node(String data)
+    {
+        this.data = data;
+    }
+
+    public Node(Node parent, String data)
+    {
+        this.parent = parent;
+        this.data = data;
+    }
+
     /**
      * Метод для получения ссылки на родительский узел
      *

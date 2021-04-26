@@ -26,6 +26,19 @@ public abstract class ContainerNode extends Node
      * */
     public ContainerNode()
     {
+        super();
+        this.propertyList = new ArrayList<>();
+    }
+
+    public ContainerNode(String data)
+    {
+        super(data);
+        this.propertyList = new ArrayList<>();
+    }
+
+    public ContainerNode(Node parent, String data)
+    {
+        super(parent, data);
         this.propertyList = new ArrayList<>();
     }
 

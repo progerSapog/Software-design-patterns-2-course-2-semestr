@@ -1,8 +1,5 @@
 package com.ngtu.sdp.laboratory_work2.nodes;
 
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
-
 import java.util.stream.Stream;
 
 /**
@@ -12,11 +9,25 @@ import java.util.stream.Stream;
  * @see AttributeNode
  * @see ValueNode
  * */
-@Component("individual")
-@Scope("prototype")
 public class IndividualNode extends ContainerNode
 {
     public IndividualNode() {
+        super();
+    }
+
+    public IndividualNode(Node parent, String data)
+    {
+        super(parent, data);
+    }
+
+    public void setID()
+    {
+        ValueNode valNode = new ValueNode(Integer.toString(this.hashCode()));
+        AttributeNode atrNode = new AttributeNode(this, "ID");
+        atrNode.addChildNode(valNode);
+        valNode.setParent(atrNode);
+
+        this.addChildNode(atrNode);
     }
 
     /**

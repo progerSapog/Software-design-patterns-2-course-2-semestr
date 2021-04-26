@@ -1,9 +1,7 @@
 package com.ngtu.sdp.laboratory_work2.nodes;
 
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
-
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -13,8 +11,6 @@ import java.util.List;
  * @see ContainerNode
  * @see IndividualNode
  * */
-@Component("class")
-@Scope("prototype")
 public class ClassNode extends ContainerNode
 {
     private List<ClassNodeStateEnum> state;    //Поле отвечающее за состояния данного узла
@@ -26,6 +22,18 @@ public class ClassNode extends ContainerNode
     public ClassNode()
     {
         state = new ArrayList<>();
+    }
+
+    public ClassNode(String data, ClassNodeStateEnum... states)
+    {
+        super(data);
+        this.state = new ArrayList<>(Arrays.asList(states));
+    }
+
+    public ClassNode(Node parent, String data, ClassNodeStateEnum... states)
+    {
+        super(parent, data);
+        this.state = new ArrayList<>(Arrays.asList(states));
     }
 
     /**
@@ -64,7 +72,7 @@ public class ClassNode extends ContainerNode
      *
      * @param state - состояние, которое необходимо задать.
      * */
-    public void setState(ClassNodeStateEnum state)
+    public void addState(ClassNodeStateEnum state)
     {
         this.state.add(state);
     }
