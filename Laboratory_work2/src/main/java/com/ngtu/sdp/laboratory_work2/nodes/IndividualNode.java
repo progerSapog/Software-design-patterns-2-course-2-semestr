@@ -11,19 +11,37 @@ import java.util.stream.Stream;
  * */
 public class IndividualNode extends ContainerNode
 {
+    /**
+     * Конструктор по умолчанию
+     * */
     public IndividualNode() {
         super();
     }
 
+
+    /**
+     * Конструктор с параметрами
+     *
+     * @param data   - данные узла
+     * @param parent - ссылка на родителя
+     */
     public IndividualNode(Node parent, String data)
     {
         super(parent, data);
     }
 
+    /**
+     * Метод для задания атрибута ID на основе hashCode данного объекта
+     * */
     public void setID()
     {
+        //Создаем узел значение, передаем в него hashCode
         ValueNode valNode = new ValueNode(Integer.toString(this.hashCode()));
+
+        //Создание атрибута ID
         AttributeNode atrNode = new AttributeNode(this, "ID");
+
+        //Создание связи между атрибутом и значением
         atrNode.addChildNode(valNode);
         valNode.setParent(atrNode);
 

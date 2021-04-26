@@ -9,15 +9,30 @@ package com.ngtu.sdp.laboratory_work2.nodes;
  * */
 public class ValueNode extends Leaf
 {
-    public ValueNode() {
+    /**
+     * Конструктор по умолчанию
+     */
+    public ValueNode()
+    {
         super();
     }
 
+    /**
+     * Конструктор с параметрами
+     *
+     * @param data   - данные узла
+     */
     public ValueNode(String data)
     {
         super(data);
     }
 
+    /**
+     * Конструктор с параметрами
+     *
+     * @param data   - данные узла
+     * @param parent - ссылка на родителя
+     */
     public ValueNode(Node parent, String data)
     {
         super(parent, data);

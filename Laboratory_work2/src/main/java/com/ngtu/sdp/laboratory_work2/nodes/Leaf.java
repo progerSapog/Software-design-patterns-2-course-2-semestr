@@ -12,14 +12,22 @@ public abstract class Leaf extends Node
         super();
     }
 
+    /**
+     * Конструктор по умолчанию
+     * */
     public Leaf(String data)
     {
         super(data);
     }
 
+    /**
+     * Конструктор с параметрами
+     *
+     * @param data   - данные узла
+     * @param parent - ссылка на родителя
+     */
     public Leaf(Node parent, String data)
     {
         super(parent, data);
     }
-
 }

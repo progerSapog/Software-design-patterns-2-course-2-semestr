@@ -1,15 +1,13 @@
 package com.ngtu.sdp.laboratory_work2.printers;
 
-import com.ngtu.sdp.laboratory_work2.nodes.ClassNode;
-import com.ngtu.sdp.laboratory_work2.nodes.IndividualNode;
-import com.ngtu.sdp.laboratory_work2.nodes.Node;
+import com.ngtu.sdp.laboratory_work2.nodes.*;
 import com.ngtu.sdp.laboratory_work2.propertys.Property;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import java.util.LinkedList;
-import java.util.List;
+import java.util.ArrayDeque;
 import java.util.Queue;
+import java.util.function.Consumer;
 
 /**
  * Класс, реализующий интрфейс Printable.
@@ -18,10 +16,8 @@ import java.util.Queue;
  * */
 @Component("printer")
 @Scope("singleton")
-public class GraphPrinter implements Printable<ClassNode>
+public class GraphPrinter implements Printable<ContainerNode>
 {
-    private static GraphPrinter instance;    //Ссылка на единственный экземпляр класса
-
     //Константы для хранения последовательностей для
     //изменения цвета текста в консоли
     private static final String RESET = "\u001B[0m";
@@ -37,132 +33,95 @@ public class GraphPrinter implements Printable<ClassNode>
     }
 
     @Override
-    public void print(ClassNode object) {
+    public void print(ContainerNode node)
+    {
+        System.out.println("\t\tПредставление графовой структуры в виде списков смежностей: ");
+        System.out.println();
 
+        System.out.print("Обозначения: ");
+        System.out.print(RED    + "узел дерева, ");
+        System.out.print(YELLOW + "подкласс, ");
+        System.out.print(GREEN  + "индивид." + RESET);
+        System.out.println();
+        System.out.println();
+
+
+        //Создаем очередь для хранения узлов
+        Queue<ContainerNode> nodeQueue = new ArrayDeque<>();
+        nodeQueue.offer(node);
+
+        //Пока очередь не пуста
+        //Вытаскиваем узлы, пишем о них инф-ию, заносим потомков в очередь
+        while (!nodeQueue.isEmpty())
+        {
+            //Вытаскиваем узел, пишем о нем инф-ию
+            node = nodeQueue.poll();
+            printDataWithColor(node);
+            System.out.print(": ");
+
+
+            node.getPropertyList().stream()            //Получаем стрим из списка связей узла
+                    .map(Property::getChildNode)       //получаем из каждой связи дочерний узел
+                    .forEach(new Consumer<Node>() {    //Для каждого узла выполянем метод accept
+                @Override                              //анонимного класса, реализующего функцианальный интерфейс
+                public void accept(Node node)          //Consumer
+                {
+                    //выводим ин-ию о зуле
+                    printDataWithColor(node);
+
+                    //если узел не AttributeNode, то заносим в очередь
+                    if (!(node instanceof AttributeNode)) addToQueue(node);
+                }
+
+                public void addToQueue(Node node)
+                {
+                    nodeQueue.offer((ContainerNode) node);
+                }
+            });
+            System.out.println();
+        }
     }
 
     /**
-     * Реализация метода print из интефрейса
-     * Printable
+     * Вспомогательный метод, выводящий имя узла
+     * разными цветами, в зависимости от типа
      *
-     * @param graph - корень графовой структуры
+     * Красный - корень дерева
+     * Желтый  - подкласс
+     * Зеленый - индивид
      * */
-//    @Override
-//    public void print(ClassNode graph)
-//    {
-//        //Если передана пустая ссылка, то завершение работы
-//        if (graph == null) return;
-//
-//        System.out.println("\t\tПредставление графовой структуры в виде списков смежностей: ");
-//        System.out.println();
-//
-//        System.out.print("Обозначения: ");
-//        System.out.print(RED    + "узел дерева, ");
-//        System.out.print(YELLOW + "подкласс, ");
-//        System.out.print(GREEN  + "индивид." + RESET);
-//        System.out.println();
-//        System.out.println();
-//
-//
-//        //Создаем очередь для хранения узлов
-//        Queue<Node> nodeQueue = new LinkedList<>();
-//
-//        //Помещаем в очередь узел
-//        nodeQueue.offer(graph);
-//
-//        //Ссылка на временные списки
-//        List<Property> tempList;
-//        List<Property> secondTempList;
-//
-//        //Создание ссылки на узел общего типа
-//        Node tempNode;
-//
-//        //Цикл do while
-//        //пока очередь не опустеет
-//        do {
-//            //"Вытаскиваем" узел из очереди
-//            tempNode = nodeQueue.poll();
-//
-//            assert tempNode != null;
-//
-//            //В временный список записываем
-//            tempList = tempNode.getPropertyList();
-//
-//            //Вывод подсвеченного имени текущего узла
-//            printDataWithColor(tempNode);
-//            System.out.print(": ");
-//
-//            //Если "вытащенный" узел не принадлжеит типу IndividualNode
-//            if (!(tempNode instanceof IndividualNode))
-//            {
-//                //Проходя по потомкам выводим их имена с подсветкой
-//                for (int i = 0; i < tempList.size(); i++)
-//                {
-//                    printDataWithColor(tempList.get(i).getChildNode());
-//                    if (i < tempList.size() - 1)
-//                    {
-//                        System.out.print(", ");
-//                    }
-//
-//                    //добавляем дочерний узел в очередь
-//                    nodeQueue.offer(tempList.get(i).getChildNode());
-//                }
-//            }
-//            //Иначе выводим потомков и потомков потомков (Узлы AttributeNode и ValueNode)
-//            else {
-//                //Проход по узлам потомкам - Attribute узлам
-//                for (int i = 0; i < tempList.size(); i++)
-//                {
-//                    //Проход по потомкам потомков - value узлам
-//                    secondTempList = tempList.get(i).getChildNode().getPropertyList();
-//                    for (int j = 0; j < secondTempList.size(); j++)
-//                    {
-//                        System.out.print(tempList.get(i).getChildNode().getData() + ": " +
-//                                tempList.get(i).getChildNode().getPropertyList().get(j).getChildNode().getData());
-//                    }
-//                    if (i < tempList.size() - 1)
-//                    {
-//                        System.out.print(", ");
-//                    }
-//                }
-//            }
-//            System.out.print("\n");
-//        }
-//        while (!nodeQueue.isEmpty());
-//    }
-//
-//    /**
-//     * Вспомогательный метод, выводящий имя узла
-//     * разными цветами, в зависимости от типа
-//     *
-//     * Красный - корень дерева
-//     * Желтый  - подкласс
-//     * Зеленый - индивид
-//     * */
-//    private void printDataWithColor(Node node)
-//    {
-//        //Если переданный узел относится к типу ClassNode
-//        if (node instanceof ClassNode)
-//        {
-//            //Если у узла нет родителя - то узел является корнем
-//            //и выводится красным
-//            if (node.getParent() == null)
-//            {
-//                System.out.print(RED);
-//            }
-//            //Иначе узел является подклассом и выводится
-//            //желтым
-//            else
-//            {
-//                System.out.print(YELLOW);
-//            }
-//        }
-//        //Другой тип выводится зеленым
-//        else
-//        {
-//            System.out.print(GREEN);
-//        }
-//
-//        System.out.print(node.getData() + RESET);
-//    }
+    private void printDataWithColor(Node node)
+    {
+        //Если переданный узел относится к типу ClassNode
+        if (node instanceof ClassNode)
+        {
+            //Если у узла нет родителя - то узел является корнем
+            //и выводится красным
+            if (node.getParent() == null)
+            {
+                System.out.print(RED);
+            }
+            //Иначе узел является подклассом и выводится
+            //желтым
+            else
+            {
+                System.out.print(YELLOW);
+            }
+            System.out.print(node.getData() + RESET + " ");
+        }
+        //Тип Индивид выводится зеленым
+        if (node instanceof IndividualNode)
+        {
+            System.out.print(GREEN);
+            System.out.print(node.getData() + RESET + " ");
+        }
+
+        //Атриуб и значения выводится без выделения цветом.
+        if (node instanceof AttributeNode)
+        {
+            System.out.print(node.getData() + " = " + ((AttributeNode) node).getPropertyList()
+                    .get(0).getChildNode().getData() + " | ");
+        }
+    }
+
 }

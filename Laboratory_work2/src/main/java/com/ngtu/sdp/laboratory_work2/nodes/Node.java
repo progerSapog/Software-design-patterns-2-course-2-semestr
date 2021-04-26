@@ -12,14 +12,28 @@ public abstract class Node
     protected Node parent;    //Поле для хранении ссылки на родительский узел
     protected String data;    //Поле для хранения данных
 
+    /**
+     * Конструктор по умолчанию.
+     * */
     public Node() {
     }
 
+    /**
+     * Конструктор с параметрами
+     *
+     * @param data   - данные узла
+     */
     public Node(String data)
     {
         this.data = data;
     }
 
+    /**
+     * Конструктор с параметрами
+     *
+     * @param data   - данные узла
+     * @param parent - ссылка на родителя
+     */
     public Node(Node parent, String data)
     {
         this.parent = parent;

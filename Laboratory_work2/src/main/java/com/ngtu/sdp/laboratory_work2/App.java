@@ -1,80 +1,65 @@
 package com.ngtu.sdp.laboratory_work2;
 
+import com.ngtu.sdp.laboratory_work2.builder.Director;
 import com.ngtu.sdp.laboratory_work2.builder.GraphBuilder;
-import com.ngtu.sdp.laboratory_work2.nodes.*;
+import com.ngtu.sdp.laboratory_work2.nodes.ContainerNode;
 import com.ngtu.sdp.laboratory_work2.printers.GraphPrinter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Component;
 
+import java.util.Optional;
+
+/**
+ * Класс, содержащий точку входа в программу - метод main.
+ * Язык: java
+ *
+ * Реализация второй лабораторной работы по диспилине: Шаблоны проектирования ПО
+ *  Вариант №8
+ *
+ * Текст задания: https://github.com/progerSapog/Software-design-patterns-2-course-2-semestr
+ *
+ * @release:     -
+ * @last_update: 26.04.21
+ *
+ * @author Vladislav Sapozhnikov 19-IVT-3 (github: https://github.com/progerSapog )
+ * @author Valerii Sukhorukov    19-IVT-3 (github: https://github.com/Valery-S    )
+ * @author Vyacheslav Mostashov  19-IVT-3 (github: https://github.com/Vyacheslav-M)
+ */
 @Component("app")
 @Scope("singleton")
 public class App
 {
-    public static void main( String[] args )
-    {
-        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
-
-        GraphBuilder builder = new GraphBuilder();
-        ContainerNode rootNode = (ContainerNode) builder.reset("Человек");
-
-        ContainerNode subclassNode = builder.toClassNodeAddClassNode(rootNode, "Негр");
-        ContainerNode individualNode = builder.toClassNodeAddIndividualNode(rootNode, "Хритос");
-
-        ContainerNode subIndividual = builder.toClassNodeAddIndividualNode(subclassNode, "Bob");
-
-        ContainerNode atr1 = builder.toIndividualNodeAddAttributeNode(subIndividual, "Возраст");
-        ContainerNode atr2 = builder.toIndividualNodeAddAttributeNode(subIndividual, "M");
-
-        builder.toAttributeNodeAddValueNode(atr1, "53");
-        builder.toAttributeNodeAddValueNode(atr2, "M");
-
-        System.out.println(subclassNode.hashCode());
-
-
-
-
-
-//        App app = context.getBean("app", App.class);
-//        ClassNode graph = app.createGraph(context);
-//
-//        app.printGraph(graph);
-//
-//        System.out.println("\n\t\t\t\t\u001B[31m Конец работы...\u001B[0m");
-
-
-//        ClassNode rootNode = new ClassNode("Человек", ClassNodeStateEnum.CLASS);
-//
-//        IndividualNode individualNode = new IndividualNode(rootNode, "Игорь");
-//        rootNode.addChildNode(individualNode);
-//
-//        AttributeNode atr1 = new AttributeNode(individualNode, "Возраст");
-//        AttributeNode atr2 = new AttributeNode(individualNode, "Пол");
-//
-//        ValueNode val1 = new ValueNode(atr1, "53");
-//        ValueNode val2 = new ValueNode(atr2, "M");
-//
-//        atr1.addChildNode(val1);
-//        atr2.addChildNode(val2);
-//
-//        individualNode.addChildNode(atr1);
-//        individualNode.addChildNode(atr2);
-//
-//        System.out.println(individualNode.hashCode());
-
-        context.close();
-
-        //Обработка исключений реализованных в рамке данной работы
-
-    }
-
+    //Dependency Injection
+    @Autowired
+    private GraphBuilder graphBuilder;
 
     @Autowired
-    private GraphPrinter printer;
-    private void printGraph(ClassNode rootNode)
+    private GraphPrinter graphPrinter;
+
+    /**
+     * Точка входа в программу
+     * */
+    public static void main(String[] args )
     {
-        printer.print(rootNode);
+        //Получение контекста из XML файла
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
+
+        //Получение экземпляра класса App
+        App app = context.getBean("app", App.class);
+
+        //Получение экземпляра директора из контекста
+        Director director = context.getBean("director", Director.class);
+
+        //Получение родительского узла в обертке Optional
+        Optional<ContainerNode> nodeOpt = director.constructorGraph(app.graphBuilder);
+
+        //Если обретка не пуста, то выводим граф
+        nodeOpt.ifPresent(containerNode -> app.graphPrinter.print(containerNode));
+
+        //закрытие контекста
+        context.close();
     }
 }
 

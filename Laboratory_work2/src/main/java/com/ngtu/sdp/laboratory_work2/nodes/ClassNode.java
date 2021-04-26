@@ -24,12 +24,25 @@ public class ClassNode extends ContainerNode
         state = new ArrayList<>();
     }
 
+    /**
+     * Конструктор с параметрами
+     *
+     * @param data   - данные узла
+     * @param states - параметр перемнной длины (автоупаковка в массив незвестного массива)
+     * */
     public ClassNode(String data, ClassNodeStateEnum... states)
     {
         super(data);
         this.state = new ArrayList<>(Arrays.asList(states));
     }
 
+    /**
+     * Конструктор с параметрами
+     *
+     * @param data   - данные узла
+     * @param parent - ссылка на родителя
+     * @param states - параметр перемнной длины (автоупаковка в массив незвестного массива)
+     * */
     public ClassNode(Node parent, String data, ClassNodeStateEnum... states)
     {
         super(parent, data);

@@ -1,29 +1,23 @@
-package builder;
+package com.ngtu.sdp.laboratory_work2.builder;
 
-import exceptions.ChildNodeException;
-import nodes.ClassNode;
-import nodes.IndividualNode;
-import nodes.Node;
+import com.ngtu.sdp.laboratory_work2.nodes.ClassNode;
+import com.ngtu.sdp.laboratory_work2.nodes.ContainerNode;
+import com.ngtu.sdp.laboratory_work2.nodes.IndividualNode;
+import com.ngtu.sdp.laboratory_work2.nodes.Node;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
-import java.util.LinkedList;
-import java.util.Queue;
-import java.util.Scanner;
+import java.util.*;
 
 /**
- * Класс, реализующий автомат для создания графовой структуры
+ * Класс, управляющий Builder'ом
  *
- * @see nodes.Node
- * @see nodes.ClassNode
- * @see nodes.IndividualNode
- * @see nodes.AttributeNode
- * @see nodes.ValueNode
- *
- * @author Vladislav Sapozhnikov 19-IVT-3
- * @author Valerii Sukhorukov    19-IVT-3
- * @author Vyacheslav Mostashov  19-IVT-3
+ * @see Builder
+ * @see GraphBuilder
  * */
-public class GraphBuilder
-{
+@Component("director")
+@Scope("singleton")
+public class Director {
     //Константы для хранения последовательностей для
     //изменения цвета текста в консоли
     private static final String RESET = "\u001B[0m";
@@ -32,12 +26,7 @@ public class GraphBuilder
     private static final String CYAN = "\u001B[36m";
     private static final String GREEN = "\u001B[32m";
 
-    /**
-     * Поскольку для создания графа нет необходимости
-     * создавать объект данного класса, то запрящаем
-     * создание объекта
-     * */
-    private GraphBuilder() {
+    public Director() {
     }
 
     /**
@@ -56,6 +45,8 @@ public class GraphBuilder
     /**
      * Метод выводящий информацию о переданном узле.
      * Скрыт, т.к. не использутеся напрямую
+     *
+     * @param node - узел, ин-ию о котором необходимо вывести.
      * */
     private static void printNodeInfo(Node node)
     {
@@ -73,37 +64,33 @@ public class GraphBuilder
                 "------------------------");
     }
 
-    public
     /**
-     * "Автомат создания графа (но это не точно автомат)"
+     * Метод сборки графа
      *
-     * @return - ссылку на новую графовую структуру
+     * @param builder - экземпляр билдера для сборки.
+     * @return оболочку Optional с родительским узлом
      * */
-    public static ClassNode createNewGraph() throws ChildNodeException
+    public Optional<ContainerNode> constructorGraph(Builder builder)
     {
-        //"Состояние автомата"
         //Создаем очередь для хранения узлов
-        Queue<Node> nodeQueue = new LinkedList<>();
+        Queue<ContainerNode> nodeQueue = null;
 
-        //Создание ссылки на узел общего типа
-        Node tempNode;
-
-        //создаем ссылку на корень
-        ClassNode graphRoot = null;
+        ContainerNode outputNode;
+        ContainerNode inputNode;
+        ContainerNode root = null;
 
         //Открытие потока ввода
         Scanner scanner = new Scanner(System.in);
 
         String input;    //Временные ссылки для хранения
-        String name;     //введенных строк
-
-        printSeparator();
+        String data;     //введенных строк
 
         //Создание 1ого узла - корня графовой структуры
         //Механизм do while предалагает пользователю повторный ввод
         //при неверных введенных данных
         do {
-            System.out.println("1. - Создать узел типа Класс(ClassNode)");
+            printSeparator();
+            System.out.println("1. - Создать корень дерева");
             System.out.println(RED + "q." + RESET + " - Завершить ввод на данном уровне");
             System.out.println();
             System.out.print("Ввод: ");
@@ -114,29 +101,35 @@ public class GraphBuilder
             switch (input)
             {
                 case ("1"): {
-                    System.out.print("Введите имя узла: ");
-                    name = scanner.nextLine();
+                    nodeQueue = new ArrayDeque<>();
 
-                    graphRoot = new ClassNode(name);
-                    nodeQueue.offer(graphRoot);
+                    data = "";
+                    System.out.print("Введите имя узла: ");
+                    while (data.isBlank())
+                    {
+                        data = scanner.nextLine();
+                    }
+                    root = builder.reset(data);
+                    nodeQueue.offer(root);
 
                     //Когда закончили ввод, то устанавливает флаг - выход
-                    input = "Выход";
-
+                    input = "q";
                     break;
                 }
-                case ("q"): {
+                case ("q"):
+                {
                     //Если мы вышли на данном шаге, то graphRoot = null
                     //поэтому сразу возращаем null
-                    return null;
+                    return Optional.empty();
                 }
-                default: {
+                default:
+                {
                     System.out.println(RED + "Ошибка ввода..." + RESET);
                     break;
                 }
             }
         }
-        while (!input.equals("Выход"));
+        while (!input.equals("q"));
         System.out.println();
 
         //Цикл do while
@@ -145,15 +138,14 @@ public class GraphBuilder
         do
         {
             printSeparator();
-            tempNode = nodeQueue.poll();    //"Вытаскиваем" узел из очереди
+            outputNode = nodeQueue.poll();    //"Вытаскиваем" узел из очереди
 
-            assert tempNode != null;        //Проверка на null
-
-            printNodeInfo(tempNode);        //Вывод информации о "вытащенном" узле
+            assert outputNode != null;        //Проверка на null
+            printNodeInfo(outputNode);        //Вывод информации о "вытащенном" узле
 
             //Если "вытащенный" узел имеет тип ClassNode
             //то предлагается создать дочерний подкласс или индивид
-            if (tempNode instanceof ClassNode)
+            if (outputNode instanceof ClassNode)
             {
                 //Механизм do while предалагает пользователю повторный ввод
                 //при неверных введенных данных
@@ -169,40 +161,37 @@ public class GraphBuilder
 
                     switch (input) {
                         //Создание нового подкласса
-                        case ("1"): {
+                        case ("1"):
+                        {
+                            data = "";
                             System.out.print("Введите имя узла: ");
-                            name = scanner.nextLine();
+                            while (data.isBlank())
+                            {
+                                data = scanner.nextLine();
+                            }
+                            inputNode = builder.toClassNodeAddClassNode(outputNode, data);
 
-                            ClassNode node = new ClassNode(name);
-
-                            //Приводим общий узел к типу ClassNode и вызываем
-                            //метод addChild
-                            ((ClassNode) tempNode).addChild(node);
-
-                            //Добавляем новый созданный узел в очередь
-                            nodeQueue.offer(node);
+                            nodeQueue.offer(inputNode);
                             break;
                         }
 
                         //Создание нового индивида
-                        case ("2"): {
+                        case ("2"):
+                        {
                             System.out.print("Введите имя индивида: ");
-                            name = scanner.nextLine();
-
-                            IndividualNode node = new IndividualNode(name);
-
-                            //Приводим общий узел к типу ClassNode и вызываем
-                            //метод addChild
-                            ((ClassNode) tempNode).addChild(node);
+                            data = scanner.nextLine();
+                            inputNode = builder.toClassNodeAddIndividualNode(outputNode, data);
 
                             //Добавляем новый созданный узел в очередь
-                            nodeQueue.offer(node);
+                            nodeQueue.offer(inputNode);
                             break;
                         }
-                        case ("q"): {
+                        case ("q"):
+                        {
                             break;
                         }
-                        default: {
+                        default:
+                        {
                             System.out.println(RED + "Ошибка ввода..." + RESET);
                             break;
                         }
@@ -215,7 +204,7 @@ public class GraphBuilder
 
             //Если "вытащенный" узел имеет тип IndividualNode
             //то предлагается добавить атрибут для данного индивида
-            if (tempNode instanceof IndividualNode)
+            if (outputNode instanceof IndividualNode)
             {
                 //Механизм do while предалагает пользователю повторный ввод
                 //при неверных введенных данных
@@ -228,20 +217,22 @@ public class GraphBuilder
                     input = scanner.nextLine();
                     System.out.println();
 
-                    switch (input) {
+                    switch (input)
+                    {
                         //Создание нового атрибута
-                        case ("1"): {
-                            String data;
-
+                        case ("1"):
+                        {
+                            data = "";
                             System.out.print("Введите имя атрибута: ");
-                            name = scanner.nextLine();
+                            String name = scanner.nextLine();
 
                             System.out.print("Введите значение атрибута: ");
-                            data = scanner.nextLine();
+                            while (data.isBlank())
+                            {
+                                data = scanner.nextLine();
+                            }
 
-                            //Приводим общий узел к типу IndividualNode и вызываем
-                            //метод addAttribute
-                            ((IndividualNode) tempNode).addAttribute(name, data);
+                            builder.toIndividualNodeAddAttributeNode(outputNode, name, data);
 
                             //Поскольку узла типа Атрибут и значение конечные,
                             //то их уже не добавляем в очередь
@@ -261,6 +252,7 @@ public class GraphBuilder
         }
         while (!nodeQueue.isEmpty());
 
-        return graphRoot;
+        assert root != null;
+        return Optional.of(root);
     }
 }

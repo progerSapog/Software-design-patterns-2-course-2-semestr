@@ -30,12 +30,25 @@ public abstract class ContainerNode extends Node
         this.propertyList = new ArrayList<>();
     }
 
+
+    /**
+     * Конструктор с параметрами
+     *
+     * @param data   - данные узла
+     */
     public ContainerNode(String data)
     {
         super(data);
         this.propertyList = new ArrayList<>();
     }
 
+
+    /**
+     * Конструктор с параметрами
+     *
+     * @param data   - данные узла
+     * @param parent - ссылка на родителя
+     * */
     public ContainerNode(Node parent, String data)
     {
         super(parent, data);
