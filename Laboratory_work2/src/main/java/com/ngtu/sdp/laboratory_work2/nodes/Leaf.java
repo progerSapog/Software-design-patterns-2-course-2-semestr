@@ -8,4 +8,6 @@ package com.ngtu.sdp.laboratory_work2.nodes;
  * */
 public abstract class Leaf extends Node
 {
+    public Leaf() {
+    }
 }

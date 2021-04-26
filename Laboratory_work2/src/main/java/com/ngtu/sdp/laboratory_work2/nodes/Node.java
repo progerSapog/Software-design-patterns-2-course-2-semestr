@@ -12,6 +12,9 @@ public abstract class Node
     protected Node parent;    //Поле для хранении ссылки на родительский узел
     protected String data;    //Поле для хранения данных
 
+    public Node() {
+    }
+
     /**
      * Метод для получения ссылки на родительский узел
      *
