@@ -1,7 +1,7 @@
 package com.ngtu.sdp.laboratory_work2;
 
+import com.ngtu.sdp.laboratory_work2.builder.Builder;
 import com.ngtu.sdp.laboratory_work2.builder.Director;
-import com.ngtu.sdp.laboratory_work2.builder.GraphBuilder;
 import com.ngtu.sdp.laboratory_work2.nodes.ContainerNode;
 import com.ngtu.sdp.laboratory_work2.printers.GraphPrinter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,12 +31,11 @@ import java.util.Optional;
 @Scope("singleton")
 public class App
 {
-    //Dependency Injection
-    @Autowired
-    private GraphBuilder graphBuilder;
-
     @Autowired
     private GraphPrinter graphPrinter;
+
+    @Autowired
+    private Builder GraphBuilder;
 
     /**
      * Точка входа в программу
@@ -48,12 +47,8 @@ public class App
 
         //Получение экземпляра класса App
         App app = context.getBean("app", App.class);
-        GraphBuilder graphBuilder = context.getBean( GraphBuilder.class);
-        //Получение экземпляра директора из контекста
         Director director = context.getBean("director", Director.class);
-
-        //Получение родительского узла в обертке Optional
-        Optional<ContainerNode> nodeOpt = director.constructorGraph(app.graphBuilder);
+        Optional<ContainerNode> nodeOpt = director.constructorGraph(app.GraphBuilder);
 
         //Если обретка не пуста, то выводим граф
         nodeOpt.ifPresent(containerNode -> app.graphPrinter.print(containerNode));

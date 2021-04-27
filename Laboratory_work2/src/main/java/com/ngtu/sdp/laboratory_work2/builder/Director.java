@@ -67,10 +67,9 @@ public class Director {
     /**
      * Метод сборки графа
      *
-     * @param builder - экземпляр билдера для сборки.
      * @return оболочку Optional с родительским узлом
-     * */
-    public Optional<ContainerNode> constructorGraph(Builder builder)
+     * @param graphBuilder*/
+    public Optional<ContainerNode> constructorGraph(Builder graphBuilder)
     {
         //Создаем очередь для хранения узлов
         Queue<ContainerNode> nodeQueue = null;
@@ -109,7 +108,7 @@ public class Director {
                     {
                         data = scanner.nextLine();
                     }
-                    root = builder.reset(data);
+                    root = graphBuilder.reset(data);
                     nodeQueue.offer(root);
 
                     //Когда закончили ввод, то устанавливает флаг - выход
@@ -169,7 +168,7 @@ public class Director {
                             {
                                 data = scanner.nextLine();
                             }
-                            inputNode = builder.toClassNodeAddClassNode(outputNode, data);
+                            inputNode = graphBuilder.toClassNodeAddClassNode(outputNode, data);
 
                             nodeQueue.offer(inputNode);
                             break;
@@ -180,7 +179,7 @@ public class Director {
                         {
                             System.out.print("Введите имя индивида: ");
                             data = scanner.nextLine();
-                            inputNode = builder.toClassNodeAddIndividualNode(outputNode, data);
+                            inputNode = graphBuilder.toClassNodeAddIndividualNode(outputNode, data);
 
                             //Добавляем новый созданный узел в очередь
                             nodeQueue.offer(inputNode);
@@ -232,7 +231,7 @@ public class Director {
                                 data = scanner.nextLine();
                             }
 
-                            builder.toIndividualNodeAddAttributeNode(outputNode, name, data);
+                            graphBuilder.toIndividualNodeAddAttributeNode(outputNode, name, data);
 
                             //Поскольку узла типа Атрибут и значение конечные,
                             //то их уже не добавляем в очередь
