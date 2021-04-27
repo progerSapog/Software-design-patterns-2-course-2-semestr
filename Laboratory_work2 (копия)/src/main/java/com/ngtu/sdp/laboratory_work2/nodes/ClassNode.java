@@ -81,24 +81,6 @@ public class ClassNode extends ContainerNode
     }
 
     /**
-     * Возвращает состояние данного узла в виде строки.
-     *
-     * @return в виде строки.
-     * */
-    public String getStateAsString()
-    {
-        StringBuilder stateStr = new StringBuilder();
-        for (int i = 0; i < state.size() - 1; i++)
-        {
-            stateStr.append(state.get(i).toString()).append(", ");
-        }
-
-        stateStr.append(state.get(state.size() - 1));
-
-        return stateStr.toString();
-    }
-
-    /**
      * Установливает состояние узла
      *
      * @param state - состояние, которое необходимо задать.

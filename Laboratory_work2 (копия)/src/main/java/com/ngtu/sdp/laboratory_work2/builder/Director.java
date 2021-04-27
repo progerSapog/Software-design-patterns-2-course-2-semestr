@@ -26,9 +26,6 @@ public class Director {
     private static final String CYAN = "\u001B[36m";
     private static final String GREEN = "\u001B[32m";
 
-    /**
-     * Конструктор по умолчанию.
-     * */
     public Director() {
     }
 
@@ -60,7 +57,7 @@ public class Director {
         //Если тип данного узла ClassNode, то выводим еще и состояние
         if (node instanceof ClassNode)
         {
-            System.out.print(" | " + PURPLE + "Статус родителя: " + RESET + ((ClassNode)node).getStateAsString());
+            System.out.print(" | " + PURPLE + "Статус родителя: " + RESET + ((ClassNode)node).getState());
         }
         System.out.println();
         System.out.println("------------------------------------------------------------------------" +
@@ -70,9 +67,8 @@ public class Director {
     /**
      * Метод сборки графа
      *
+     * @param builder - экземпляр билдера для сборки.
      * @return оболочку Optional с родительским узлом
-     * @param builder - экземпляр билдера при помощи которого будет производится
-     *                  создание структуры.
      * */
     public Optional<ContainerNode> constructorGraph(Builder builder)
     {

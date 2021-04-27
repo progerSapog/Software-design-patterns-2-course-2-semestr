@@ -1,0 +1,797 @@
+Index: src/main/java/com/ngtu/sdp/laboratory_work2/nodes/AttributeNode.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.ngtu.sdp.laboratory_work2.nodes;\n\nimport org.springframework.context.annotation.Scope;\nimport org.springframework.stereotype.Component;\n\n/**\n * Узел атрибут\n * Содержит значение Имя атрибута и список дочерних связей\n *\n * @see Node\n * @see ContainerNode\n * @see ClassNode\n * @see IndividualNode\n * */\n@Component(\"attribute\")\n@Scope(\"prototype\")\npublic class AttributeNode extends ContainerNode\n{\n    public AttributeNode() {\n    }\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/com/ngtu/sdp/laboratory_work2/nodes/AttributeNode.java b/src/main/java/com/ngtu/sdp/laboratory_work2/nodes/AttributeNode.java
+--- a/src/main/java/com/ngtu/sdp/laboratory_work2/nodes/AttributeNode.java	(revision d1b2e2bfbe7018c2416d9a2a7a104979509d6e77)
++++ b/src/main/java/com/ngtu/sdp/laboratory_work2/nodes/AttributeNode.java	(date 1619430349147)
+@@ -1,8 +1,5 @@
+ package com.ngtu.sdp.laboratory_work2.nodes;
+ 
+-import org.springframework.context.annotation.Scope;
+-import org.springframework.stereotype.Component;
+-
+ /**
+  * Узел атрибут
+  * Содержит значение Имя атрибута и список дочерних связей
+@@ -12,10 +9,14 @@
+  * @see ClassNode
+  * @see IndividualNode
+  * */
+-@Component("attribute")
+-@Scope("prototype")
+ public class AttributeNode extends ContainerNode
+ {
+-    public AttributeNode() {
++    public AttributeNode()
++    {
++    }
++
++    public AttributeNode(Node parent, String data)
++    {
++        super(parent, data);
+     }
+ }
+Index: src/main/java/com/ngtu/sdp/laboratory_work2/nodes/Leaf.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.ngtu.sdp.laboratory_work2.nodes;\n\n/**\n * Конечй лист - не имеет потомков\n *\n * @see Node\n * @see ValueNode\n * */\npublic abstract class Leaf extends Node\n{\n    public Leaf() {\n    }\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/com/ngtu/sdp/laboratory_work2/nodes/Leaf.java b/src/main/java/com/ngtu/sdp/laboratory_work2/nodes/Leaf.java
+--- a/src/main/java/com/ngtu/sdp/laboratory_work2/nodes/Leaf.java	(revision d1b2e2bfbe7018c2416d9a2a7a104979509d6e77)
++++ b/src/main/java/com/ngtu/sdp/laboratory_work2/nodes/Leaf.java	(date 1619425320442)
+@@ -9,5 +9,17 @@
+ public abstract class Leaf extends Node
+ {
+     public Leaf() {
++        super();
++    }
++
++    public Leaf(String data)
++    {
++        super(data);
+     }
++
++    public Leaf(Node parent, String data)
++    {
++        super(parent, data);
++    }
++
+ }
+Index: src/main/java/com/ngtu/sdp/laboratory_work2/nodes/IndividualNode.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.ngtu.sdp.laboratory_work2.nodes;\n\nimport org.springframework.context.annotation.Scope;\nimport org.springframework.stereotype.Component;\n\nimport java.util.stream.Stream;\n\n/**\n * Класс Индивид - экземпляр класс/подкласса типа ClassNode\n *\n * @see ContainerNode\n * @see AttributeNode\n * @see ValueNode\n * */\n@Component(\"individual\")\n@Scope(\"prototype\")\npublic class IndividualNode extends ContainerNode\n{\n    public IndividualNode() {\n    }\n\n    /**\n     * Перегруженный метод получения хэша\n     *\n     * @return значение хэша данного объекта\n     * */\n    @Override\n    public int hashCode()\n    {\n        int res = propertyList.stream()                  //получаем Stream из списка связей с дочерними узлами\n                .map(x -> x.getChildNode().getData())    //из каждой связи получаем дочерний узел, а потом ин-ию из него\n                .reduce(\"\" , String::concat)          //складываем всю ин-ию в одну строку\n                .chars()                                 //получаем стрим интов (char = int) из строки\n                .reduce(0, (x, y) -> x*31 + y);       //складываем элементы, домнажая каждый новый на простое число\n\n        res += Stream.of(parent.getData(), data)         //получаем инф-ии об узле и родителе\n                .reduce(\"\", String::concat)           //складываем всю ин-ию в одну строку\n                .chars()                                 //получаем стрим интов (char = int) из строки\n                .reduce(0, (x, y) -> x*31 + y);        //складываем элементы, домнажая каждый новый на простое число\n\n        //если res отрицательный то меняем знак\n        return res < 0 ? -(res) : res;\n    }\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/com/ngtu/sdp/laboratory_work2/nodes/IndividualNode.java b/src/main/java/com/ngtu/sdp/laboratory_work2/nodes/IndividualNode.java
+--- a/src/main/java/com/ngtu/sdp/laboratory_work2/nodes/IndividualNode.java	(revision d1b2e2bfbe7018c2416d9a2a7a104979509d6e77)
++++ b/src/main/java/com/ngtu/sdp/laboratory_work2/nodes/IndividualNode.java	(date 1619430735208)
+@@ -1,8 +1,5 @@
+ package com.ngtu.sdp.laboratory_work2.nodes;
+ 
+-import org.springframework.context.annotation.Scope;
+-import org.springframework.stereotype.Component;
+-
+ import java.util.stream.Stream;
+ 
+ /**
+@@ -12,11 +9,25 @@
+  * @see AttributeNode
+  * @see ValueNode
+  * */
+-@Component("individual")
+-@Scope("prototype")
+ public class IndividualNode extends ContainerNode
+ {
+     public IndividualNode() {
++        super();
++    }
++
++    public IndividualNode(Node parent, String data)
++    {
++        super(parent, data);
++    }
++
++    public void setID()
++    {
++        ValueNode valNode = new ValueNode(Integer.toString(this.hashCode()));
++        AttributeNode atrNode = new AttributeNode(this, "ID");
++        atrNode.addChildNode(valNode);
++        valNode.setParent(atrNode);
++
++        this.addChildNode(atrNode);
+     }
+ 
+     /**
+Index: src/main/java/com/ngtu/sdp/laboratory_work2/nodes/Node.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.ngtu.sdp.laboratory_work2.nodes;\n\n/**\n * Абстрактный класс, содержащий основные поля\n * и методы узлов графовой структуры\n *\n * @see ContainerNode\n * @see Leaf\n * */\npublic abstract class Node\n{\n    protected Node parent;    //Поле для хранении ссылки на родительский узел\n    protected String data;    //Поле для хранения данных\n\n    public Node() {\n    }\n\n    /**\n     * Метод для получения ссылки на родительский узел\n     *\n     * @return - ссылка на родительский узел\n     * */\n    public Node getParent()\n    {\n        return parent;\n    }\n\n    /**\n     * Метод для получения данных из узла\n     *\n     * @return - данные\n     * */\n    public String getData()\n    {\n        return data;\n    }\n\n    /**\n     * Метод для задания ссылки на родительский узел\n     *\n     * @param parent - ссылка на родительский узел\n     * */\n    public void setParent(Node parent)\n    {\n        this.parent = parent;\n    }\n\n    /**\n     * Метод для задания строки данных\n     *\n     * @param data - строка данных\n     * */\n    public void setData(String data)\n    {\n        this.data = data;\n    }\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/com/ngtu/sdp/laboratory_work2/nodes/Node.java b/src/main/java/com/ngtu/sdp/laboratory_work2/nodes/Node.java
+--- a/src/main/java/com/ngtu/sdp/laboratory_work2/nodes/Node.java	(revision d1b2e2bfbe7018c2416d9a2a7a104979509d6e77)
++++ b/src/main/java/com/ngtu/sdp/laboratory_work2/nodes/Node.java	(date 1619425320414)
+@@ -15,6 +15,17 @@
+     public Node() {
+     }
+ 
++    public Node(String data)
++    {
++        this.data = data;
++    }
++
++    public Node(Node parent, String data)
++    {
++        this.parent = parent;
++        this.data = data;
++    }
++
+     /**
+      * Метод для получения ссылки на родительский узел
+      *
+Index: src/main/java/com/ngtu/sdp/laboratory_work2/builder/Builder.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.ngtu.sdp.laboratory_work2.builder;\n\nimport org.springframework.context.support.ClassPathXmlApplicationContext;\n\npublic interface Builder<T>\n{\n    public T build(ClassPathXmlApplicationContext context);\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/com/ngtu/sdp/laboratory_work2/builder/Builder.java b/src/main/java/com/ngtu/sdp/laboratory_work2/builder/Builder.java
+--- a/src/main/java/com/ngtu/sdp/laboratory_work2/builder/Builder.java	(revision d1b2e2bfbe7018c2416d9a2a7a104979509d6e77)
++++ b/src/main/java/com/ngtu/sdp/laboratory_work2/builder/Builder.java	(date 1619428786340)
+@@ -1,8 +1,18 @@
+ package com.ngtu.sdp.laboratory_work2.builder;
+ 
+-import org.springframework.context.support.ClassPathXmlApplicationContext;
++import com.ngtu.sdp.laboratory_work2.nodes.ContainerNode;
++import com.ngtu.sdp.laboratory_work2.nodes.Leaf;
++import com.ngtu.sdp.laboratory_work2.nodes.Node;
+ 
+-public interface Builder<T>
++public interface Builder
+ {
+-    public T build(ClassPathXmlApplicationContext context);
++    Node reset(String data);
++
++    ContainerNode toClassNodeAddClassNode(ContainerNode srcNode, String childNodeData);
++
++    ContainerNode toClassNodeAddIndividualNode(ContainerNode srcNode, String childNodeData);
++
++    ContainerNode toIndividualNodeAddAttributeNode(ContainerNode srcNode, String childNodeData);
++
++    Leaf toAttributeNodeAddValueNode(ContainerNode srcNode, String childNodeData);
+ }
+Index: src/main/java/com/ngtu/sdp/laboratory_work2/App.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.ngtu.sdp.laboratory_work2;\n\nimport com.ngtu.sdp.laboratory_work2.builder.GraphBuilder;\nimport com.ngtu.sdp.laboratory_work2.nodes.AttributeNode;\nimport com.ngtu.sdp.laboratory_work2.nodes.ClassNode;\nimport com.ngtu.sdp.laboratory_work2.nodes.IndividualNode;\nimport com.ngtu.sdp.laboratory_work2.nodes.ValueNode;\nimport com.ngtu.sdp.laboratory_work2.printers.GraphPrinter;\nimport org.springframework.beans.factory.annotation.Autowired;\nimport org.springframework.context.annotation.Scope;\nimport org.springframework.context.support.ClassPathXmlApplicationContext;\nimport org.springframework.stereotype.Component;\n\n@Component(\"app\")\n@Scope(\"singleton\")\npublic class App\n{\n    public static void main( String[] args )\n    {\n        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(\"applicationContext.xml\");\n\n//        App app = context.getBean(\"app\", App.class);\n//        ClassNode graph = app.createGraph(context);\n//\n//        app.printGraph(graph);\n//\n//        System.out.println(\"\\n\\t\\t\\t\\t\\u001B[31m Конец работы...\\u001B[0m\");\n\n\n        ClassNode rootNode = context.getBean(\"class\", ClassNode.class);\n        rootNode.setData(\"Чловек\");\n\n        IndividualNode individualNode = context.getBean(\"individual\", IndividualNode.class);\n        individualNode.setData(\"Игорь\");\n        individualNode.setParent(rootNode);\n        rootNode.addChildNode(individualNode);\n\n        AttributeNode atr1 = context.getBean(\"attribute\", AttributeNode.class);\n        AttributeNode atr2 = context.getBean(\"attribute\", AttributeNode.class);\n\n        atr1.setData(\"Возраст\");\n        atr2.setData(\"Пол\");\n\n        ValueNode val1 = context.getBean(\"value\", ValueNode.class);\n        ValueNode val2 = context.getBean(\"value\", ValueNode.class);\n\n        val1.setData(\"53\");\n        val2.setData(\"M\");\n\n        val1.setParent(atr1);\n        val2.setParent(atr2);\n        atr1.addChildNode(val1);\n        atr2.addChildNode(val2);\n\n        individualNode.addChildNode(atr1);\n        individualNode.addChildNode(atr2);\n\n        atr1.setParent(individualNode);\n        atr2.setParent(individualNode);\n\n        System.out.println(individualNode.hashCode());\n\n\n        context.close();\n\n        //Обработка исключений реализованных в рамке данной работы\n\n    }\n\n    //Dependency Injection\n    @Autowired\n    private GraphBuilder builder;\n    private ClassNode createGraph(ClassPathXmlApplicationContext context)\n    {\n        return builder.build(context);\n    }\n\n    @Autowired\n    private GraphPrinter printer;\n    private void printGraph(ClassNode rootNode)\n    {\n        printer.print(rootNode);\n    }\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/com/ngtu/sdp/laboratory_work2/App.java b/src/main/java/com/ngtu/sdp/laboratory_work2/App.java
+--- a/src/main/java/com/ngtu/sdp/laboratory_work2/App.java	(revision d1b2e2bfbe7018c2416d9a2a7a104979509d6e77)
++++ b/src/main/java/com/ngtu/sdp/laboratory_work2/App.java	(date 1619431065775)
+@@ -1,10 +1,7 @@
+ package com.ngtu.sdp.laboratory_work2;
+ 
+ import com.ngtu.sdp.laboratory_work2.builder.GraphBuilder;
+-import com.ngtu.sdp.laboratory_work2.nodes.AttributeNode;
+-import com.ngtu.sdp.laboratory_work2.nodes.ClassNode;
+-import com.ngtu.sdp.laboratory_work2.nodes.IndividualNode;
+-import com.ngtu.sdp.laboratory_work2.nodes.ValueNode;
++import com.ngtu.sdp.laboratory_work2.nodes.*;
+ import com.ngtu.sdp.laboratory_work2.printers.GraphPrinter;
+ import org.springframework.beans.factory.annotation.Autowired;
+ import org.springframework.context.annotation.Scope;
+@@ -19,6 +16,26 @@
+     {
+         ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
+ 
++        GraphBuilder builder = new GraphBuilder();
++        ContainerNode rootNode = (ContainerNode) builder.reset("Человек");
++
++        ContainerNode subclassNode = builder.toClassNodeAddClassNode(rootNode, "Негр");
++        ContainerNode individualNode = builder.toClassNodeAddIndividualNode(rootNode, "Хритос");
++
++        ContainerNode subIndividual = builder.toClassNodeAddIndividualNode(subclassNode, "Bob");
++
++        ContainerNode atr1 = builder.toIndividualNodeAddAttributeNode(subIndividual, "Возраст");
++        ContainerNode atr2 = builder.toIndividualNodeAddAttributeNode(subIndividual, "M");
++
++        builder.toAttributeNodeAddValueNode(atr1, "53");
++        builder.toAttributeNodeAddValueNode(atr2, "M");
++
++        System.out.println(subclassNode.hashCode());
++
++
++
++
++
+ //        App app = context.getBean("app", App.class);
+ //        ClassNode graph = app.createGraph(context);
+ //
+@@ -27,39 +44,24 @@
+ //        System.out.println("\n\t\t\t\t\u001B[31m Конец работы...\u001B[0m");
+ 
+ 
+-        ClassNode rootNode = context.getBean("class", ClassNode.class);
+-        rootNode.setData("Чловек");
+-
+-        IndividualNode individualNode = context.getBean("individual", IndividualNode.class);
+-        individualNode.setData("Игорь");
+-        individualNode.setParent(rootNode);
+-        rootNode.addChildNode(individualNode);
+-
+-        AttributeNode atr1 = context.getBean("attribute", AttributeNode.class);
+-        AttributeNode atr2 = context.getBean("attribute", AttributeNode.class);
+-
+-        atr1.setData("Возраст");
+-        atr2.setData("Пол");
+-
+-        ValueNode val1 = context.getBean("value", ValueNode.class);
+-        ValueNode val2 = context.getBean("value", ValueNode.class);
+-
+-        val1.setData("53");
+-        val2.setData("M");
+-
+-        val1.setParent(atr1);
+-        val2.setParent(atr2);
+-        atr1.addChildNode(val1);
+-        atr2.addChildNode(val2);
+-
+-        individualNode.addChildNode(atr1);
+-        individualNode.addChildNode(atr2);
+-
+-        atr1.setParent(individualNode);
+-        atr2.setParent(individualNode);
+-
+-        System.out.println(individualNode.hashCode());
+-
++//        ClassNode rootNode = new ClassNode("Человек", ClassNodeStateEnum.CLASS);
++//
++//        IndividualNode individualNode = new IndividualNode(rootNode, "Игорь");
++//        rootNode.addChildNode(individualNode);
++//
++//        AttributeNode atr1 = new AttributeNode(individualNode, "Возраст");
++//        AttributeNode atr2 = new AttributeNode(individualNode, "Пол");
++//
++//        ValueNode val1 = new ValueNode(atr1, "53");
++//        ValueNode val2 = new ValueNode(atr2, "M");
++//
++//        atr1.addChildNode(val1);
++//        atr2.addChildNode(val2);
++//
++//        individualNode.addChildNode(atr1);
++//        individualNode.addChildNode(atr2);
++//
++//        System.out.println(individualNode.hashCode());
+ 
+         context.close();
+ 
+@@ -67,13 +69,6 @@
+ 
+     }
+ 
+-    //Dependency Injection
+-    @Autowired
+-    private GraphBuilder builder;
+-    private ClassNode createGraph(ClassPathXmlApplicationContext context)
+-    {
+-        return builder.build(context);
+-    }
+ 
+     @Autowired
+     private GraphPrinter printer;
+@@ -81,4 +76,48 @@
+     {
+         printer.print(rootNode);
+     }
+-}
+\ No newline at end of file
++}
++
++
++
++
++
++
++
++
++
++
++
++
++//    ClassNode rootNode = context.getBean("class", ClassNode.class);
++//        rootNode.setData("Чловек");
++//
++//                IndividualNode individualNode = context.getBean("individual", IndividualNode.class);
++//        individualNode.setData("Игорь");
++//        individualNode.setParent(rootNode);
++//        rootNode.addChildNode(individualNode);
++//
++//        AttributeNode atr1 = context.getBean("attribute", AttributeNode.class);
++//        AttributeNode atr2 = context.getBean("attribute", AttributeNode.class);
++//
++//        atr1.setData("Возраст");
++//        atr2.setData("Пол");
++//
++//        ValueNode val1 = context.getBean("value", ValueNode.class);
++//        ValueNode val2 = context.getBean("value", ValueNode.class);
++//
++//        val1.setData("53");
++//        val2.setData("M");
++//
++//        val1.setParent(atr1);
++//        val2.setParent(atr2);
++//        atr1.addChildNode(val1);
++//        atr2.addChildNode(val2);
++//
++//        individualNode.addChildNode(atr1);
++//        individualNode.addChildNode(atr2);
++//
++//        atr1.setParent(individualNode);
++//        atr2.setParent(individualNode);
++//
++//        System.out.println(individualNode.hashCode());
+\ No newline at end of file
+Index: src/main/java/com/ngtu/sdp/laboratory_work2/nodes/ValueNode.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.ngtu.sdp.laboratory_work2.nodes;\n\nimport org.springframework.context.annotation.Scope;\nimport org.springframework.stereotype.Component;\n\n/**\n * Узел значение.\n * Содержит значение Атрибута\n *\n * @see Leaf\n * @see AttributeNode\n * */\n@Component(\"value\")\n@Scope(\"prototype\")\npublic class ValueNode extends Leaf\n{\n    public ValueNode() {\n    }\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/com/ngtu/sdp/laboratory_work2/nodes/ValueNode.java b/src/main/java/com/ngtu/sdp/laboratory_work2/nodes/ValueNode.java
+--- a/src/main/java/com/ngtu/sdp/laboratory_work2/nodes/ValueNode.java	(revision d1b2e2bfbe7018c2416d9a2a7a104979509d6e77)
++++ b/src/main/java/com/ngtu/sdp/laboratory_work2/nodes/ValueNode.java	(date 1619430349127)
+@@ -1,8 +1,5 @@
+ package com.ngtu.sdp.laboratory_work2.nodes;
+ 
+-import org.springframework.context.annotation.Scope;
+-import org.springframework.stereotype.Component;
+-
+ /**
+  * Узел значение.
+  * Содержит значение Атрибута
+@@ -10,10 +7,19 @@
+  * @see Leaf
+  * @see AttributeNode
+  * */
+-@Component("value")
+-@Scope("prototype")
+ public class ValueNode extends Leaf
+ {
+     public ValueNode() {
++        super();
++    }
++
++    public ValueNode(String data)
++    {
++        super(data);
++    }
++
++    public ValueNode(Node parent, String data)
++    {
++        super(parent, data);
+     }
+ }
+Index: src/main/java/com/ngtu/sdp/laboratory_work2/builder/GraphBuilder.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.ngtu.sdp.laboratory_work2.builder;\n\n\nimport com.ngtu.sdp.laboratory_work2.nodes.ClassNode;\nimport com.ngtu.sdp.laboratory_work2.nodes.ClassNodeStateEnum;\nimport com.ngtu.sdp.laboratory_work2.nodes.IndividualNode;\nimport com.ngtu.sdp.laboratory_work2.nodes.Node;\nimport org.springframework.context.annotation.Scope;\nimport org.springframework.context.support.ClassPathXmlApplicationContext;\nimport org.springframework.stereotype.Component;\n\nimport java.util.LinkedList;\nimport java.util.Queue;\nimport java.util.Scanner;\n\n/**\n * Класс, реализующий автомат для создания графовой структуры\n * */\n@Component(\"builder\")\n@Scope(\"singleton\")\npublic class GraphBuilder implements Builder<ClassNode>\n{\n    //Константы для хранения последовательностей для\n    //изменения цвета текста в консоли\n    private static final String RESET = \"\\u001B[0m\";\n    private static final String RED = \"\\u001B[31m\";\n    private static final String PURPLE = \"\\u001B[35m\";\n    private static final String CYAN = \"\\u001B[36m\";\n    private static final String GREEN = \"\\u001B[32m\";\n\n    public GraphBuilder()\n    {\n\n    }\n\n    /**\n     * Метод выводящий разделитель при создании узлов\n     * Скрыт, т.к. не использутеся напрямую\n     * */\n    private static void printSeparator()\n    {\n        System.out.println(\"------------------------------------------------------------------------\" +\n                \"------------------------\");\n        System.out.println(\"\\t\\t\\t\\t\\t\\t\\t\\t\\t\" + GREEN + \"Создание нового узла\" + RESET);\n        System.out.println(\"------------------------------------------------------------------------\" +\n                \"------------------------\");\n    }\n\n    /**\n     * Метод выводящий информацию о переданном узле.\n     * Скрыт, т.к. не использутеся напрямую\n     * */\n    private static void printNodeInfo(Node node)\n    {\n        //Для каждого создающегося в данный момент узла\n        //выводим информацию о родителе\n        System.out.print(CYAN + \"Родитель: \" + RESET + node.getData());\n\n        //Если тип данного узла ClassNode, то выводим еще и состояние\n        if (node instanceof ClassNode)\n        {\n            System.out.print(\" | \" + PURPLE + \"Статус родителя: \" + RESET + ((ClassNode)node).getState());\n        }\n        System.out.println();\n        System.out.println(\"------------------------------------------------------------------------\" +\n                \"------------------------\");\n    }\n\n    /**\n     * \"Автомат создания графа (но это не точно автомат)\"\n     *\n     * @return - ссылку на новую графовую структуру\n     * */\n    @Override\n    public ClassNode build(ClassPathXmlApplicationContext context)\n    {\n        //\"Состояние автомата\"\n        //Создаем очередь для хранения узлов\n        Queue<Node> nodeQueue = new LinkedList<>();\n\n        //Создание ссылки на узел общего типа\n        Node tempNode;\n\n        //создаем ссылку на корень\n        Node graphRoot = null;\n\n        //Открытие потока ввода\n        Scanner scanner = new Scanner(System.in);\n\n        String input;    //Временные ссылки для хранения\n        String name;     //введенных строк\n\n        printSeparator();\n\n        //Создание 1ого узла - корня графовой структуры\n        //Механизм do while предалагает пользователю повторный ввод\n        //при неверных введенных данных\n        do {\n            System.out.println(\"1. - Создать узел типа Класс(ClassNode)\");\n            System.out.println(RED + \"q.\" + RESET + \" - Завершить ввод на данном уровне\");\n            System.out.println();\n            System.out.print(\"Ввод: \");\n\n            input = scanner.nextLine();\n            System.out.println();\n\n            switch (input)\n            {\n                case (\"1\"): {\n                    System.out.print(\"Введите имя узла: \");\n                    name = scanner.nextLine();\n\n                    graphRoot = context.getBean(\"class\", Node.class);\n                    graphRoot.setData(name);\n                    ((ClassNode) graphRoot).setState(ClassNodeStateEnum.CLASS);\n                    nodeQueue.offer(graphRoot);\n\n                    //Когда закончили ввод, то устанавливает флаг - выход\n                    input = \"Выход\";\n\n                    break;\n                }\n                case (\"q\"): {\n                    //Если мы вышли на данном шаге, то graphRoot = null\n                    //поэтому сразу возращаем null\n                    return null;\n                }\n                default: {\n                    System.out.println(RED + \"Ошибка ввода...\" + RESET);\n                    break;\n                }\n            }\n        }\n        while (!input.equals(\"Выход\"));\n        System.out.println();\n\n        //Цикл do while\n        //пока очередь не опустеет\n        //делаем \"шаги автомата\"\n        do\n        {\n            printSeparator();\n            tempNode = nodeQueue.poll();    //\"Вытаскиваем\" узел из очереди\n\n            assert tempNode != null;        //Проверка на null\n\n            printNodeInfo(tempNode);        //Вывод информации о \"вытащенном\" узле\n\n            //Если \"вытащенный\" узел имеет тип ClassNode\n            //то предлагается создать дочерний подкласс или индивид\n            if (tempNode instanceof ClassNode)\n            {\n                //Механизм do while предалагает пользователю повторный ввод\n                //при неверных введенных данных\n                do {\n                    System.out.println(\"1. - Создать узел типа Подкласс(ClassNode)\");\n                    System.out.println(\"2. - Создать узел типа Индивид (IndividualNode)\");\n                    System.out.println(RED + \"q.\" + RESET + \" - Завершить ввод на данном уровне\");\n                    System.out.println();\n                    System.out.print(\"Ввод: \");\n\n                    input = scanner.nextLine();\n                    System.out.println();\n\n                    switch (input) {\n                        //Создание нового подкласса\n                        case (\"1\"): {\n                            System.out.print(\"Введите имя узла: \");\n                            name = scanner.nextLine();\n\n                            Node node = context.getBean(\"class\", Node.class);\n                            node.setData(name);\n                            node.setParent(tempNode);\n                            ((ClassNode) node).setState(ClassNodeStateEnum.SUBCLASS);\n                            ((ClassNode) tempNode).setState(ClassNodeStateEnum.HAVE_SUBCLASS);\n\n\n                            //Приводим общий узел к типу ClassNode и вызываем\n                            //метод addChild\n                            ((ClassNode) tempNode).addChildNode(node);\n\n                            //Добавляем новый созданный узел в очередь\n                            nodeQueue.offer(node);\n                            break;\n                        }\n\n                        //Создание нового индивида\n                        case (\"2\"): {\n                            System.out.print(\"Введите имя индивида: \");\n                            name = scanner.nextLine();\n\n                            Node node = context.getBean(\"individual\", Node.class);\n                            node.setData(name);\n                            node.setParent(tempNode);\n                            ((ClassNode) tempNode).setState(ClassNodeStateEnum.HAVE_INDIVIDUAL);\n\n                            //Приводим общий узел к типу ClassNode и вызываем\n                            //метод addChild\n                            ((ClassNode) tempNode).addChildNode(node);\n\n                            //Добавляем новый созданный узел в очередь\n                            nodeQueue.offer(node);\n                            break;\n                        }\n                        case (\"q\"): {\n                            break;\n                        }\n                        default: {\n                            System.out.println(RED + \"Ошибка ввода...\" + RESET);\n                            break;\n                        }\n                    }\n\n                }\n                while (!input.equals(\"q\"));\n            }\n            System.out.println();\n\n            //Если \"вытащенный\" узел имеет тип IndividualNode\n            //то предлагается добавить атрибут для данного индивида\n            if (tempNode instanceof IndividualNode)\n            {\n                //Механизм do while предалагает пользователю повторный ввод\n                //при неверных введенных данных\n                do {\n                    System.out.println(\"1. - Создать узел типа Атрибут(AttributeNode)\");\n                    System.out.println(RED + \"q.\" + RESET + \" - Завершить ввод на данном уровне\");\n                    System.out.println();\n                    System.out.print(\"Ввод: \");\n\n                    input = scanner.nextLine();\n                    System.out.println();\n\n                    switch (input) {\n                        //Создание нового атрибута\n                        case (\"1\"): {\n                            String data;\n\n                            System.out.print(\"Введите имя атрибута: \");\n                            name = scanner.nextLine();\n\n                            System.out.print(\"Введите значение атрибута: \");\n                            data = scanner.nextLine();\n\n                            Node attrNode = context.getBean(\"attribute\", Node.class);\n                            attrNode.setData(name);\n                            attrNode.setParent(tempNode);\n\n                            Node valNode = context.getBean(\"value\", Node.class);\n                            valNode.setData(data);\n                            valNode.setParent(attrNode);\n\n                            ((IndividualNode) tempNode).addChildNode(attrNode);\n                            //Поскольку узла типа Атрибут и значение конечные,\n                            //то их уже не добавляем в очередь\n                            break;\n                        }\n                        case (\"q\"): {\n                            break;\n                        }\n                        default: {\n                            System.out.println(RED + \"Ошибка ввода...\" + RESET);\n                            break;\n                        }\n                    }\n                }\n                while (!input.equals(\"q\"));\n            }\n        }\n        while (!nodeQueue.isEmpty());\n\n        return (ClassNode) graphRoot;\n    }\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/com/ngtu/sdp/laboratory_work2/builder/GraphBuilder.java b/src/main/java/com/ngtu/sdp/laboratory_work2/builder/GraphBuilder.java
+--- a/src/main/java/com/ngtu/sdp/laboratory_work2/builder/GraphBuilder.java	(revision d1b2e2bfbe7018c2416d9a2a7a104979509d6e77)
++++ b/src/main/java/com/ngtu/sdp/laboratory_work2/builder/GraphBuilder.java	(date 1619430529820)
+@@ -1,274 +1,57 @@
+ package com.ngtu.sdp.laboratory_work2.builder;
+ 
++import com.ngtu.sdp.laboratory_work2.nodes.*;
+ 
+-import com.ngtu.sdp.laboratory_work2.nodes.ClassNode;
+-import com.ngtu.sdp.laboratory_work2.nodes.ClassNodeStateEnum;
+-import com.ngtu.sdp.laboratory_work2.nodes.IndividualNode;
+-import com.ngtu.sdp.laboratory_work2.nodes.Node;
+-import org.springframework.context.annotation.Scope;
+-import org.springframework.context.support.ClassPathXmlApplicationContext;
+-import org.springframework.stereotype.Component;
++public class GraphBuilder implements Builder
++{
++    @Override
++    public Node reset(String data)
++    {
++        return new ClassNode(data, ClassNodeStateEnum.CLASS);
++    }
+ 
+-import java.util.LinkedList;
+-import java.util.Queue;
+-import java.util.Scanner;
+-
+-/**
+- * Класс, реализующий автомат для создания графовой структуры
+- * */
+-@Component("builder")
+-@Scope("singleton")
+-public class GraphBuilder implements Builder<ClassNode>
+-{
+-    //Константы для хранения последовательностей для
+-    //изменения цвета текста в консоли
+-    private static final String RESET = "\u001B[0m";
+-    private static final String RED = "\u001B[31m";
+-    private static final String PURPLE = "\u001B[35m";
+-    private static final String CYAN = "\u001B[36m";
+-    private static final String GREEN = "\u001B[32m";
+-
+-    public GraphBuilder()
+-    {
+-
+-    }
++    @Override
++    public ContainerNode toClassNodeAddClassNode(ContainerNode srcNode, String childNodeData)
++    {
++        ClassNode childNode = new ClassNode(srcNode, childNodeData, ClassNodeStateEnum.SUBCLASS);
++        srcNode.addChildNode(childNode);
++        if (!((ClassNode)srcNode).getState().contains(ClassNodeStateEnum.HAVE_SUBCLASS))
++        {
++            ((ClassNode)srcNode).addState(ClassNodeStateEnum.HAVE_SUBCLASS);
++        }
+ 
+-    /**
+-     * Метод выводящий разделитель при создании узлов
+-     * Скрыт, т.к. не использутеся напрямую
+-     * */
+-    private static void printSeparator()
+-    {
+-        System.out.println("------------------------------------------------------------------------" +
+-                "------------------------");
+-        System.out.println("\t\t\t\t\t\t\t\t\t" + GREEN + "Создание нового узла" + RESET);
+-        System.out.println("------------------------------------------------------------------------" +
+-                "------------------------");
++        return childNode;
+     }
+ 
+-    /**
+-     * Метод выводящий информацию о переданном узле.
+-     * Скрыт, т.к. не использутеся напрямую
+-     * */
+-    private static void printNodeInfo(Node node)
++    @Override
++    public ContainerNode toClassNodeAddIndividualNode(ContainerNode srcNode, String childNodeData)
+     {
+-        //Для каждого создающегося в данный момент узла
+-        //выводим информацию о родителе
+-        System.out.print(CYAN + "Родитель: " + RESET + node.getData());
+-
+-        //Если тип данного узла ClassNode, то выводим еще и состояние
+-        if (node instanceof ClassNode)
++        IndividualNode childNode = new IndividualNode(srcNode, childNodeData);
++        srcNode.addChildNode(childNode);
++        if (!((ClassNode)srcNode).getState().contains(ClassNodeStateEnum.HAVE_INDIVIDUAL))
+         {
+-            System.out.print(" | " + PURPLE + "Статус родителя: " + RESET + ((ClassNode)node).getState());
++            ((ClassNode)srcNode).addState(ClassNodeStateEnum.HAVE_INDIVIDUAL);
+         }
+-        System.out.println();
+-        System.out.println("------------------------------------------------------------------------" +
+-                "------------------------");
++        childNode.setID();
++
++        return childNode;
+     }
+ 
+-    /**
+-     * "Автомат создания графа (но это не точно автомат)"
+-     *
+-     * @return - ссылку на новую графовую структуру
+-     * */
+     @Override
+-    public ClassNode build(ClassPathXmlApplicationContext context)
++    public ContainerNode toIndividualNodeAddAttributeNode(ContainerNode srcNode, String childNodeData)
+     {
+-        //"Состояние автомата"
+-        //Создаем очередь для хранения узлов
+-        Queue<Node> nodeQueue = new LinkedList<>();
+-
+-        //Создание ссылки на узел общего типа
+-        Node tempNode;
+-
+-        //создаем ссылку на корень
+-        Node graphRoot = null;
+-
+-        //Открытие потока ввода
+-        Scanner scanner = new Scanner(System.in);
+-
+-        String input;    //Временные ссылки для хранения
+-        String name;     //введенных строк
+-
+-        printSeparator();
+-
+-        //Создание 1ого узла - корня графовой структуры
+-        //Механизм do while предалагает пользователю повторный ввод
+-        //при неверных введенных данных
+-        do {
+-            System.out.println("1. - Создать узел типа Класс(ClassNode)");
+-            System.out.println(RED + "q." + RESET + " - Завершить ввод на данном уровне");
+-            System.out.println();
+-            System.out.print("Ввод: ");
+-
+-            input = scanner.nextLine();
+-            System.out.println();
+-
+-            switch (input)
+-            {
+-                case ("1"): {
+-                    System.out.print("Введите имя узла: ");
+-                    name = scanner.nextLine();
+-
+-                    graphRoot = context.getBean("class", Node.class);
+-                    graphRoot.setData(name);
+-                    ((ClassNode) graphRoot).setState(ClassNodeStateEnum.CLASS);
+-                    nodeQueue.offer(graphRoot);
++        AttributeNode childNode = new AttributeNode(srcNode, childNodeData);
++        srcNode.addChildNode(childNode);
+ 
+-                    //Когда закончили ввод, то устанавливает флаг - выход
+-                    input = "Выход";
+-
+-                    break;
+-                }
+-                case ("q"): {
+-                    //Если мы вышли на данном шаге, то graphRoot = null
+-                    //поэтому сразу возращаем null
+-                    return null;
+-                }
+-                default: {
+-                    System.out.println(RED + "Ошибка ввода..." + RESET);
+-                    break;
+-                }
+-            }
+-        }
+-        while (!input.equals("Выход"));
+-        System.out.println();
++        return childNode;
++    }
+ 
+-        //Цикл do while
+-        //пока очередь не опустеет
+-        //делаем "шаги автомата"
+-        do
+-        {
+-            printSeparator();
+-            tempNode = nodeQueue.poll();    //"Вытаскиваем" узел из очереди
+-
+-            assert tempNode != null;        //Проверка на null
+-
+-            printNodeInfo(tempNode);        //Вывод информации о "вытащенном" узле
++    @Override
++    public Leaf toAttributeNodeAddValueNode(ContainerNode srcNode, String childNodeData)
++    {
++        ValueNode childNode = new ValueNode(srcNode, childNodeData);
++        srcNode.addChildNode(childNode);
+ 
+-            //Если "вытащенный" узел имеет тип ClassNode
+-            //то предлагается создать дочерний подкласс или индивид
+-            if (tempNode instanceof ClassNode)
+-            {
+-                //Механизм do while предалагает пользователю повторный ввод
+-                //при неверных введенных данных
+-                do {
+-                    System.out.println("1. - Создать узел типа Подкласс(ClassNode)");
+-                    System.out.println("2. - Создать узел типа Индивид (IndividualNode)");
+-                    System.out.println(RED + "q." + RESET + " - Завершить ввод на данном уровне");
+-                    System.out.println();
+-                    System.out.print("Ввод: ");
+-
+-                    input = scanner.nextLine();
+-                    System.out.println();
+-
+-                    switch (input) {
+-                        //Создание нового подкласса
+-                        case ("1"): {
+-                            System.out.print("Введите имя узла: ");
+-                            name = scanner.nextLine();
+-
+-                            Node node = context.getBean("class", Node.class);
+-                            node.setData(name);
+-                            node.setParent(tempNode);
+-                            ((ClassNode) node).setState(ClassNodeStateEnum.SUBCLASS);
+-                            ((ClassNode) tempNode).setState(ClassNodeStateEnum.HAVE_SUBCLASS);
+-
+-
+-                            //Приводим общий узел к типу ClassNode и вызываем
+-                            //метод addChild
+-                            ((ClassNode) tempNode).addChildNode(node);
+-
+-                            //Добавляем новый созданный узел в очередь
+-                            nodeQueue.offer(node);
+-                            break;
+-                        }
+-
+-                        //Создание нового индивида
+-                        case ("2"): {
+-                            System.out.print("Введите имя индивида: ");
+-                            name = scanner.nextLine();
+-
+-                            Node node = context.getBean("individual", Node.class);
+-                            node.setData(name);
+-                            node.setParent(tempNode);
+-                            ((ClassNode) tempNode).setState(ClassNodeStateEnum.HAVE_INDIVIDUAL);
+-
+-                            //Приводим общий узел к типу ClassNode и вызываем
+-                            //метод addChild
+-                            ((ClassNode) tempNode).addChildNode(node);
+-
+-                            //Добавляем новый созданный узел в очередь
+-                            nodeQueue.offer(node);
+-                            break;
+-                        }
+-                        case ("q"): {
+-                            break;
+-                        }
+-                        default: {
+-                            System.out.println(RED + "Ошибка ввода..." + RESET);
+-                            break;
+-                        }
+-                    }
+-
+-                }
+-                while (!input.equals("q"));
+-            }
+-            System.out.println();
+-
+-            //Если "вытащенный" узел имеет тип IndividualNode
+-            //то предлагается добавить атрибут для данного индивида
+-            if (tempNode instanceof IndividualNode)
+-            {
+-                //Механизм do while предалагает пользователю повторный ввод
+-                //при неверных введенных данных
+-                do {
+-                    System.out.println("1. - Создать узел типа Атрибут(AttributeNode)");
+-                    System.out.println(RED + "q." + RESET + " - Завершить ввод на данном уровне");
+-                    System.out.println();
+-                    System.out.print("Ввод: ");
+-
+-                    input = scanner.nextLine();
+-                    System.out.println();
+-
+-                    switch (input) {
+-                        //Создание нового атрибута
+-                        case ("1"): {
+-                            String data;
+-
+-                            System.out.print("Введите имя атрибута: ");
+-                            name = scanner.nextLine();
+-
+-                            System.out.print("Введите значение атрибута: ");
+-                            data = scanner.nextLine();
+-
+-                            Node attrNode = context.getBean("attribute", Node.class);
+-                            attrNode.setData(name);
+-                            attrNode.setParent(tempNode);
+-
+-                            Node valNode = context.getBean("value", Node.class);
+-                            valNode.setData(data);
+-                            valNode.setParent(attrNode);
+-
+-                            ((IndividualNode) tempNode).addChildNode(attrNode);
+-                            //Поскольку узла типа Атрибут и значение конечные,
+-                            //то их уже не добавляем в очередь
+-                            break;
+-                        }
+-                        case ("q"): {
+-                            break;
+-                        }
+-                        default: {
+-                            System.out.println(RED + "Ошибка ввода..." + RESET);
+-                            break;
+-                        }
+-                    }
+-                }
+-                while (!input.equals("q"));
+-            }
+-        }
+-        while (!nodeQueue.isEmpty());
+-
+-        return (ClassNode) graphRoot;
++        return childNode;
+     }
+ }
+Index: src/main/java/com/ngtu/sdp/laboratory_work2/nodes/ClassNode.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.ngtu.sdp.laboratory_work2.nodes;\n\nimport org.springframework.context.annotation.Scope;\nimport org.springframework.stereotype.Component;\n\nimport java.util.ArrayList;\nimport java.util.List;\n\n/**\n * Главный узел графовой структуры - служит корнем графа\n * и/или родителем для узлов типа IndividualNode\n *\n * @see ContainerNode\n * @see IndividualNode\n * */\n@Component(\"class\")\n@Scope(\"prototype\")\npublic class ClassNode extends ContainerNode\n{\n    private List<ClassNodeStateEnum> state;    //Поле отвечающее за состояния данного узла\n\n    /**\n     * Конструктор без параметров.\n     * Инициализация списка состояний\n     * */\n    public ClassNode()\n    {\n        state = new ArrayList<>();\n    }\n\n    /**\n     * Перегрузка метода добавления дочернего элемента.\n     *\n     * @param childNode - дочерний узел\n     * */\n    @Override\n    public void addChildNode(Node childNode)\n    {\n        super.addChildNode(childNode);\n        //Если передан узел ClassNode, то текущий узел получает состояние ИМЕЕТ_ПОДКЛАСС\n        if (childNode instanceof ClassNode)\n        {\n            state.add(ClassNodeStateEnum.HAVE_SUBCLASS);\n        }\n        //Если передан узел IndividualNode, то текущий узел получает состояние ИМЕЕТ_ИНДИВИДА\n        if (childNode instanceof IndividualNode)\n        {\n            state.add(ClassNodeStateEnum.HAVE_INDIVIDUAL);\n        }\n    }\n\n    /**\n     * Возвращает состояние данного узла.\n     *\n     * @return состояние\n     * */\n    public List<ClassNodeStateEnum> getState()\n    {\n        return state;\n    }\n\n    /**\n     * Установливает состояние узла\n     *\n     * @param state - состояние, которое необходимо задать.\n     * */\n    public void setState(ClassNodeStateEnum state)\n    {\n        this.state.add(state);\n    }\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/com/ngtu/sdp/laboratory_work2/nodes/ClassNode.java b/src/main/java/com/ngtu/sdp/laboratory_work2/nodes/ClassNode.java
+--- a/src/main/java/com/ngtu/sdp/laboratory_work2/nodes/ClassNode.java	(revision d1b2e2bfbe7018c2416d9a2a7a104979509d6e77)
++++ b/src/main/java/com/ngtu/sdp/laboratory_work2/nodes/ClassNode.java	(date 1619430349151)
+@@ -1,9 +1,7 @@
+ package com.ngtu.sdp.laboratory_work2.nodes;
+ 
+-import org.springframework.context.annotation.Scope;
+-import org.springframework.stereotype.Component;
+-
+ import java.util.ArrayList;
++import java.util.Arrays;
+ import java.util.List;
+ 
+ /**
+@@ -13,8 +11,6 @@
+  * @see ContainerNode
+  * @see IndividualNode
+  * */
+-@Component("class")
+-@Scope("prototype")
+ public class ClassNode extends ContainerNode
+ {
+     private List<ClassNodeStateEnum> state;    //Поле отвечающее за состояния данного узла
+@@ -28,6 +24,18 @@
+         state = new ArrayList<>();
+     }
+ 
++    public ClassNode(String data, ClassNodeStateEnum... states)
++    {
++        super(data);
++        this.state = new ArrayList<>(Arrays.asList(states));
++    }
++
++    public ClassNode(Node parent, String data, ClassNodeStateEnum... states)
++    {
++        super(parent, data);
++        this.state = new ArrayList<>(Arrays.asList(states));
++    }
++
+     /**
+      * Перегрузка метода добавления дочернего элемента.
+      *
+@@ -64,7 +72,7 @@
+      *
+      * @param state - состояние, которое необходимо задать.
+      * */
+-    public void setState(ClassNodeStateEnum state)
++    public void addState(ClassNodeStateEnum state)
+     {
+         this.state.add(state);
+     }
+Index: src/main/java/com/ngtu/sdp/laboratory_work2/nodes/ContainerNode.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.ngtu.sdp.laboratory_work2.nodes;\n\nimport com.ngtu.sdp.laboratory_work2.propertys.DataProperty;\nimport com.ngtu.sdp.laboratory_work2.propertys.ObjectProperty;\nimport com.ngtu.sdp.laboratory_work2.propertys.Property;\n\nimport java.util.ArrayList;\nimport java.util.List;\n\n/**\n * Лист - контейнер.\n * Имеет связи с дочерними узлами\n *\n * @see Node\n * @see ClassNode\n * @see IndividualNode\n * @see AttributeNode\n * */\npublic abstract class ContainerNode extends Node\n{\n    protected List<Property> propertyList;    //список потомков\n    \n    /**\n     * Конструктор без параметров. Производится инициализация \n     * списка.\n     * */\n    public ContainerNode()\n    {\n        this.propertyList = new ArrayList<>();\n    }\n\n    /**\n     * Метод для получения списка потомков.\n     * \n     * @return - список потомков\n     * */\n    public List<Property> getPropertyList()\n    {\n        return propertyList;\n    }\n\n    /**\n     * Метод для добавления потомка.\n     *\n     * @param childNode - потомок, которого необходимо добавить\n     * */\n    public void addChildNode(Node childNode)\n    {\n        //Если передан узел типа AttributeNode или ValueNode, то создание\n        //свойство объекта\n        if (childNode instanceof AttributeNode || childNode instanceof ValueNode)\n        {\n            propertyList.add(new DataProperty(childNode));\n        }\n        //Иначе создание связи свойство данных\n        else\n        {\n            propertyList.add(new ObjectProperty(childNode));\n        }\n    }\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/com/ngtu/sdp/laboratory_work2/nodes/ContainerNode.java b/src/main/java/com/ngtu/sdp/laboratory_work2/nodes/ContainerNode.java
+--- a/src/main/java/com/ngtu/sdp/laboratory_work2/nodes/ContainerNode.java	(revision d1b2e2bfbe7018c2416d9a2a7a104979509d6e77)
++++ b/src/main/java/com/ngtu/sdp/laboratory_work2/nodes/ContainerNode.java	(date 1619425822274)
+@@ -26,6 +26,19 @@
+      * */
+     public ContainerNode()
+     {
++        super();
++        this.propertyList = new ArrayList<>();
++    }
++
++    public ContainerNode(String data)
++    {
++        super(data);
++        this.propertyList = new ArrayList<>();
++    }
++
++    public ContainerNode(Node parent, String data)
++    {
++        super(parent, data);
+         this.propertyList = new ArrayList<>();
+     }
+ 
