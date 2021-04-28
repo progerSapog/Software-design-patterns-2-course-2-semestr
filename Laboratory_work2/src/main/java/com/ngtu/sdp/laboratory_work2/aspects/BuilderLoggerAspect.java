@@ -16,7 +16,7 @@ import java.util.Optional;
 @Aspect
 public class BuilderLoggerAspect
 {
-    private static final String graphBuildPrefix = "Building a graph structure: ";
+    private static final String GRAPH_BUILDER_PREFIX = "Building a graph structure: ";
 
     //Экземпляр объекта логер библиотеки logf4
     private static final Logger LOGGER = LoggerFactory.getLogger(BuilderLoggerAspect.class);
@@ -28,7 +28,7 @@ public class BuilderLoggerAspect
     {
         Object[] args = joinPoint.getArgs();
 
-        LOGGER.debug(graphBuildPrefix + "building the root of the graph (class) - " + args[0] + ".");
+        LOGGER.debug(GRAPH_BUILDER_PREFIX + "building the root of the graph (class) - " + args[0] + ".");
     }
 
     //Логгирование при возращении объекта методом reset класса GraphBuilder
@@ -36,9 +36,9 @@ public class BuilderLoggerAspect
         returning = "node")
     public void afterReturningResetLogger(ContainerNode node)
     {
-        if (node != null) LOGGER.debug(graphBuildPrefix + "root of the graph (class) - " + node.getData() + " - " +
+        if (node != null) LOGGER.debug(GRAPH_BUILDER_PREFIX + "root of the graph (class) - " + node.getData() + " - " +
                 " built success!");
-        else LOGGER.error(graphBuildPrefix + "graph root building error!");
+        else LOGGER.error(GRAPH_BUILDER_PREFIX + "graph root building error!");
     }
 
     /*********************************   toClassNodeAddClassNode   ****************************************************/
@@ -48,7 +48,7 @@ public class BuilderLoggerAspect
     {
         Object[] args = joinPoint.getArgs();
 
-        LOGGER.debug(graphBuildPrefix + "building subclass - " + args[1] + ".");
+        LOGGER.debug(GRAPH_BUILDER_PREFIX + "building subclass - " + args[1] + ".");
     }
 
     //Логгирование при возращении объекта методом toClassNodeAddClassNode класса GraphBuilder
@@ -56,9 +56,9 @@ public class BuilderLoggerAspect
             returning = "node")
     public void afterReturningToClassNodeAddClassNodeLogger(ContainerNode node)
     {
-        if (node != null) LOGGER.debug(graphBuildPrefix + "subclass - " + node.getData() + " - " +
+        if (node != null) LOGGER.debug(GRAPH_BUILDER_PREFIX + "subclass - " + node.getData() + " - " +
                 " built success!");
-        else LOGGER.error(graphBuildPrefix + "subclass building error!");
+        else LOGGER.error(GRAPH_BUILDER_PREFIX + "subclass building error!");
     }
 
     /*******************************   toClassNodeAddIndividualNode   *************************************************/
@@ -68,7 +68,7 @@ public class BuilderLoggerAspect
     {
         Object[] args = joinPoint.getArgs();
 
-        LOGGER.debug(graphBuildPrefix + "building individual - " + args[1] + ".");
+        LOGGER.debug(GRAPH_BUILDER_PREFIX + "building individual - " + args[1] + ".");
     }
 
     //Логгирование при возращении объекта методом toClassNodeAddIndividualNode класса GraphBuilder
@@ -76,9 +76,9 @@ public class BuilderLoggerAspect
             returning = "node")
     public void afterReturningToClassNodeAddIndividualNodeLogger(ContainerNode node)
     {
-        if (node != null) LOGGER.debug(graphBuildPrefix + "individual - " + node.getData() + " - " +
+        if (node != null) LOGGER.debug(GRAPH_BUILDER_PREFIX + "individual - " + node.getData() + " - " +
                 " built success!");
-        else LOGGER.error(graphBuildPrefix + "individual building error!");
+        else LOGGER.error(GRAPH_BUILDER_PREFIX + "individual building error!");
     }
 
     /*****************************   toIndividualNodeAddAttributeNode   ***********************************************/
@@ -88,7 +88,7 @@ public class BuilderLoggerAspect
     {
         Object[] args = joinPoint.getArgs();
 
-        LOGGER.debug(graphBuildPrefix + "building attribute - " + args[1] + " with value = " + args[2] + ".");
+        LOGGER.debug(GRAPH_BUILDER_PREFIX + "building attribute - " + args[1] + " with value = " + args[2] + ".");
     }
 
     //Логгирование при возращении объекта методом toIndividualNodeAddAttributeNode класса GraphBuilder
@@ -96,24 +96,24 @@ public class BuilderLoggerAspect
             returning = "node")
     public void afterReturningToIndividualNodeAddAttributeNodeLogger(ContainerNode node)
     {
-        if (node != null) LOGGER.debug(graphBuildPrefix + "attribute - " + node.getData() + " with value = "
+        if (node != null) LOGGER.debug(GRAPH_BUILDER_PREFIX + "attribute - " + node.getData() + " with value = "
                 + node.getPropertyList().get(0).getChildNode().getData() + " - built success!");
-        else LOGGER.error(graphBuildPrefix + "attribute building error!");
+        else LOGGER.error(GRAPH_BUILDER_PREFIX + "attribute building error!");
     }
 
     /************************************   Director.construct   ******************************************************/
     //Логгирование перед методом toIndividualNodeAddAttributeNode класса GraphBuilder
-    @Before("execution(* com.ngtu.sdp.laboratory_work2.builder.Director.constructorGraph(..))")
-    public void beforeConstructorGraphLogger(JoinPoint joinPoint)
+    @Before("execution(* com.ngtu.sdp.laboratory_work2.builder.Director.build(..))")
+    public void beforeBuildingGraphLogger(JoinPoint joinPoint)
     {
-        LOGGER.debug(graphBuildPrefix + "start graph building.");
+        LOGGER.debug(GRAPH_BUILDER_PREFIX + "start graph building.");
     }
 
-    @AfterReturning(value = "execution(* com.ngtu.sdp.laboratory_work2.builder.Director.constructorGraph(..))",
+    @AfterReturning(value = "execution(* com.ngtu.sdp.laboratory_work2.builder.Director.build(..))",
             returning = "nodeOpt")
-    public void afterReturningConstructorGraphLogger(Optional<ContainerNode> nodeOpt)
+    public void afterReturningBuildingGraphLogger(Optional<ContainerNode> nodeOpt)
     {
-        if (nodeOpt.isPresent()) LOGGER.debug(graphBuildPrefix + " graph build success.");
-        else LOGGER.warn(graphBuildPrefix + "graph build canceled!");
+        if (nodeOpt.isPresent()) LOGGER.debug(GRAPH_BUILDER_PREFIX + " graph build success.");
+        else LOGGER.warn(GRAPH_BUILDER_PREFIX + "graph build canceled!");
     }
 }

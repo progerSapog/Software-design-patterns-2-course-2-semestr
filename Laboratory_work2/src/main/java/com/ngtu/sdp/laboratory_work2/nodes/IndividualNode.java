@@ -35,8 +35,9 @@ public class IndividualNode extends ContainerNode
      * */
     public void setID()
     {
+        int id = this.hashCode();
         //Создаем узел значение, передаем в него hashCode
-        ValueNode valNode = new ValueNode(Integer.toString(this.hashCode()));
+        ValueNode valNode = new ValueNode(Integer.toString(id < 0 ? -(id) : id));
 
         //Создание атрибута ID
         AttributeNode atrNode = new AttributeNode(this, "ID");
@@ -56,18 +57,17 @@ public class IndividualNode extends ContainerNode
     @Override
     public int hashCode()
     {
-        int res = propertyList.stream()                  //получаем Stream из списка связей с дочерними узлами
+        int hash = propertyList.stream()                 //получаем Stream из списка связей с дочерними узлами
                 .map(x -> x.getChildNode().getData())    //из каждой связи получаем дочерний узел, а потом ин-ию из него
                 .reduce("" , String::concat)          //складываем всю ин-ию в одну строку
                 .chars()                                 //получаем стрим интов (char = int) из строки
                 .reduce(0, (x, y) -> x*31 + y);       //складываем элементы, домнажая каждый новый на простое число
 
-        res += Stream.of(parent.getData(), data)         //получаем инф-ии об узле и родителе
+        hash += Stream.of(parent.getData(), data)        //получаем инф-ии об узле и родителе
                 .reduce("", String::concat)           //складываем всю ин-ию в одну строку
                 .chars()                                 //получаем стрим интов (char = int) из строки
                 .reduce(0, (x, y) -> x*31 + y);        //складываем элементы, домнажая каждый новый на простое число
 
-        //если res отрицательный то меняем знак
-        return res < 0 ? -(res) : res;
+        return hash;
     }
 }

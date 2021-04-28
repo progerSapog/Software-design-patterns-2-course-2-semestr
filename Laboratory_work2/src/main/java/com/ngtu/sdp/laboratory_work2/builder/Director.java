@@ -74,7 +74,7 @@ public class Director {
      * @param builder - экземпляр билдера при помощи которого будет производится
      *                  создание структуры.
      * */
-    public Optional<ContainerNode> constructorGraph(Builder builder)
+    public Optional<ContainerNode> build(Builder builder)
     {
         //Создаем очередь для хранения узлов
         Queue<ContainerNode> nodeQueue = null;

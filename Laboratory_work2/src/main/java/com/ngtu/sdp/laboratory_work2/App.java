@@ -20,8 +20,8 @@ import java.util.Optional;
  *
  * Текст задания: https://github.com/progerSapog/Software-design-patterns-2-course-2-semestr
  *
- * @release:     -
- * @last_update: 26.04.21
+ * @release:     27.04.21
+ * @last_update: 27.04.21
  *
  * @author Vladislav Sapozhnikov 19-IVT-3 (github: https://github.com/progerSapog )
  * @author Valerii Sukhorukov    19-IVT-3 (github: https://github.com/Valery-S    )
@@ -31,6 +31,7 @@ import java.util.Optional;
 @Scope("singleton")
 public class App
 {
+    //Dependency Injection
     @Autowired
     private GraphPrinter graphPrinter;
 
@@ -52,7 +53,7 @@ public class App
         Director director = context.getBean("director", Director.class);
 
         //Построение графовой структуры
-        Optional<ContainerNode> nodeOpt = director.constructorGraph(app.GraphBuilder);
+        Optional<ContainerNode> nodeOpt = director.build(app.GraphBuilder);
 
         //Если обретка не пуста, то выводим граф
         nodeOpt.ifPresent(containerNode -> app.graphPrinter.print(containerNode));
