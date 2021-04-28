@@ -23,7 +23,7 @@
 Полученный граф необходимо распечатать в консоли в произвольной, но
 понятной текстовой форме.  
   
-![Схема](https://github.com/progerSapog/Software-design-patterns-2-course-2-semestr/blob/main/%D0%9E%D1%84%D0%BE%D1%80%D0%BC%D0%BB%D0%B5%D0%BD%D0%B8%D0%B5/diagram.png)  
+![Схема](https://github.com/progerSapog/Software-design-patterns-2-course-2-semestr/blob/main/%D0%9E%D1%84%D0%BE%D1%80%D0%BC%D0%BB%D0%B5%D0%BD%D0%B8%D0%B5(png%2C%20svg)/LW1/diagram.png)  
   
   <br>
   
