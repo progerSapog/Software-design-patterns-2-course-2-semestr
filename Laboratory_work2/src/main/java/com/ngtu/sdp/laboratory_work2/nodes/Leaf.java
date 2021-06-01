@@ -5,18 +5,16 @@ package com.ngtu.sdp.laboratory_work2.nodes;
  *
  * @see Node
  * @see ValueNode
- * */
-public abstract class Leaf extends Node
-{
+ */
+public abstract class Leaf extends Node {
     public Leaf() {
         super();
     }
 
     /**
      * Конструктор по умолчанию
-     * */
-    public Leaf(String data)
-    {
+     */
+    public Leaf(String data) {
         super(data);
     }
 
@@ -26,8 +24,7 @@ public abstract class Leaf extends Node
      * @param data   - данные узла
      * @param parent - ссылка на родителя
      */
-    public Leaf(Node parent, String data)
-    {
+    public Leaf(Node parent, String data) {
         super(parent, data);
     }
 }

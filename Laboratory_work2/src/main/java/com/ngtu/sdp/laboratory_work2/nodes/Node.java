@@ -6,25 +6,23 @@ package com.ngtu.sdp.laboratory_work2.nodes;
  *
  * @see ContainerNode
  * @see Leaf
- * */
-public abstract class Node
-{
+ */
+public abstract class Node {
     protected Node parent;    //Поле для хранении ссылки на родительский узел
     protected String data;    //Поле для хранения данных
 
     /**
      * Конструктор по умолчанию.
-     * */
+     */
     public Node() {
     }
 
     /**
      * Конструктор с параметрами
      *
-     * @param data   - данные узла
+     * @param data - данные узла
      */
-    public Node(String data)
-    {
+    public Node(String data) {
         this.data = data;
     }
 
@@ -34,8 +32,7 @@ public abstract class Node
      * @param data   - данные узла
      * @param parent - ссылка на родителя
      */
-    public Node(Node parent, String data)
-    {
+    public Node(Node parent, String data) {
         this.parent = parent;
         this.data = data;
     }
@@ -44,9 +41,8 @@ public abstract class Node
      * Метод для получения ссылки на родительский узел
      *
      * @return - ссылка на родительский узел
-     * */
-    public Node getParent()
-    {
+     */
+    public Node getParent() {
         return parent;
     }
 
@@ -54,9 +50,8 @@ public abstract class Node
      * Метод для получения данных из узла
      *
      * @return - данные
-     * */
-    public String getData()
-    {
+     */
+    public String getData() {
         return data;
     }
 
@@ -64,9 +59,8 @@ public abstract class Node
      * Метод для задания ссылки на родительский узел
      *
      * @param parent - ссылка на родительский узел
-     * */
-    public void setParent(Node parent)
-    {
+     */
+    public void setParent(Node parent) {
         this.parent = parent;
     }
 
@@ -74,9 +68,8 @@ public abstract class Node
      * Метод для задания строки данных
      *
      * @param data - строка данных
-     * */
-    public void setData(String data)
-    {
+     */
+    public void setData(String data) {
         this.data = data;
     }
 }

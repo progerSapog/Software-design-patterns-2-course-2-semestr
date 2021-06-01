@@ -15,17 +15,15 @@ import java.util.List;
  * @see ClassNode
  * @see IndividualNode
  * @see AttributeNode
- * */
-public abstract class ContainerNode extends Node
-{
+ */
+public abstract class ContainerNode extends Node {
     protected List<Property> propertyList;    //список потомков
-    
+
     /**
-     * Конструктор без параметров. Производится инициализация 
+     * Конструктор без параметров. Производится инициализация
      * списка.
-     * */
-    public ContainerNode()
-    {
+     */
+    public ContainerNode() {
         super();
         this.propertyList = new ArrayList<>();
     }
@@ -34,10 +32,9 @@ public abstract class ContainerNode extends Node
     /**
      * Конструктор с параметрами
      *
-     * @param data   - данные узла
+     * @param data - данные узла
      */
-    public ContainerNode(String data)
-    {
+    public ContainerNode(String data) {
         super(data);
         this.propertyList = new ArrayList<>();
     }
@@ -48,20 +45,18 @@ public abstract class ContainerNode extends Node
      *
      * @param data   - данные узла
      * @param parent - ссылка на родителя
-     * */
-    public ContainerNode(Node parent, String data)
-    {
+     */
+    public ContainerNode(Node parent, String data) {
         super(parent, data);
         this.propertyList = new ArrayList<>();
     }
 
     /**
      * Метод для получения списка потомков.
-     * 
+     *
      * @return - список потомков
-     * */
-    public List<Property> getPropertyList()
-    {
+     */
+    public List<Property> getPropertyList() {
         return propertyList;
     }
 
@@ -69,18 +64,15 @@ public abstract class ContainerNode extends Node
      * Метод для добавления потомка.
      *
      * @param childNode - потомок, которого необходимо добавить
-     * */
-    public void addChildNode(Node childNode)
-    {
+     */
+    public void addChildNode(Node childNode) {
         //Если передан узел типа AttributeNode или ValueNode, то создание
         //свойство объекта
-        if (childNode instanceof AttributeNode || childNode instanceof ValueNode)
-        {
+        if (childNode instanceof AttributeNode || childNode instanceof ValueNode) {
             propertyList.add(new DataProperty(childNode));
         }
         //Иначе создание связи свойство данных
-        else
-        {
+        else {
             propertyList.add(new ObjectProperty(childNode));
         }
     }

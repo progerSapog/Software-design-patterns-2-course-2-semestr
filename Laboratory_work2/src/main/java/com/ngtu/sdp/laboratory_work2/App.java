@@ -14,23 +14,21 @@ import java.util.Optional;
 /**
  * Класс, содержащий точку входа в программу - метод main.
  * Язык: java
- *
+ * <p>
  * Реализация второй лабораторной работы по диспилине: Шаблоны проектирования ПО
- *  Вариант №8
- *
+ * Вариант №8
+ * <p>
  * Текст задания: https://github.com/progerSapog/Software-design-patterns-2-course-2-semestr
- *
- * @release:     27.04.21
- * @last_update: 27.04.21
  *
  * @author Vladislav Sapozhnikov 19-IVT-3 (github: https://github.com/progerSapog )
  * @author Valerii Sukhorukov    19-IVT-3 (github: https://github.com/Valery-S    )
  * @author Vyacheslav Mostashov  19-IVT-3 (github: https://github.com/Vyacheslav-M)
+ * @release: 27.04.21
+ * @last_update: 27.04.21
  */
 @Component("app")
 @Scope("singleton")
-public class App
-{
+public class App {
     //Dependency Injection
     @Autowired
     private GraphPrinter graphPrinter;
@@ -40,9 +38,8 @@ public class App
 
     /**
      * Точка входа в программу
-     * */
-    public static void main(String[] args )
-    {
+     */
+    public static void main(String[] args) {
         //Получение контекста из XML файла
         ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
 

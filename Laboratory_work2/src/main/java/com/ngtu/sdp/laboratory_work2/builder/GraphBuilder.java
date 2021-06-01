@@ -10,20 +10,18 @@ import org.springframework.stereotype.Component;
  *
  * @see Builder
  * @see Director
- * */
+ */
 @Component("graphBuilder")
 @Scope("prototype")
-public class GraphBuilder implements Builder
-{
+public class GraphBuilder implements Builder {
     /**
      * Сброс строителя, посторение нового графа.
      *
      * @param data - данные корня графа.
      * @return полученный узел
-     * */
+     */
     @Override
-    public ContainerNode reset(String data)
-    {
+    public ContainerNode reset(String data) {
         //Задаем корню состояние "Класс"
         return new ClassNode(data, ClassNodeStateEnum.CLASS);
     }
@@ -34,10 +32,9 @@ public class GraphBuilder implements Builder
      * @param childNodeData - данные дочернего узла
      * @param srcNode       - узел родитель, к которому необходимо добавить потомка.
      * @return полученный узел
-     * */
+     */
     @Override
-    public ContainerNode toClassNodeAddClassNode(ContainerNode srcNode, String childNodeData)
-    {
+    public ContainerNode toClassNodeAddClassNode(ContainerNode srcNode, String childNodeData) {
         //Создание нового дочернего узла
         ClassNode childNode = new ClassNode(srcNode, childNodeData, ClassNodeStateEnum.SUBCLASS);
 
@@ -45,9 +42,8 @@ public class GraphBuilder implements Builder
         srcNode.addChildNode(childNode);
 
         //Если родиетльский узел еще не имеет состояния "ИМЕЕТ ПОДКЛАСС", то задаем ему это состяние
-        if (!((ClassNode)srcNode).getState().contains(ClassNodeStateEnum.HAVE_SUBCLASS))
-        {
-            ((ClassNode)srcNode).addState(ClassNodeStateEnum.HAVE_SUBCLASS);
+        if (!((ClassNode) srcNode).getState().contains(ClassNodeStateEnum.HAVE_SUBCLASS)) {
+            ((ClassNode) srcNode).addState(ClassNodeStateEnum.HAVE_SUBCLASS);
         }
 
         return childNode;
@@ -59,10 +55,9 @@ public class GraphBuilder implements Builder
      * @param childNodeData - данные дочернего узла
      * @param srcNode       - узел родитель, к которому необходимо добавить потомка.
      * @return полученный узел
-     * */
+     */
     @Override
-    public ContainerNode toClassNodeAddIndividualNode(ContainerNode srcNode, String childNodeData)
-    {
+    public ContainerNode toClassNodeAddIndividualNode(ContainerNode srcNode, String childNodeData) {
         //Создание нового дочернего узла
         IndividualNode childNode = new IndividualNode(srcNode, childNodeData);
 
@@ -70,9 +65,8 @@ public class GraphBuilder implements Builder
         srcNode.addChildNode(childNode);
 
         //Если родиетльский узел еще не имеет состояния "ИМЕЕТ ИНДИВИДА", то задаем ему это состяние
-        if (!((ClassNode)srcNode).getState().contains(ClassNodeStateEnum.HAVE_INDIVIDUAL))
-        {
-            ((ClassNode)srcNode).addState(ClassNodeStateEnum.HAVE_INDIVIDUAL);
+        if (!((ClassNode) srcNode).getState().contains(ClassNodeStateEnum.HAVE_INDIVIDUAL)) {
+            ((ClassNode) srcNode).addState(ClassNodeStateEnum.HAVE_INDIVIDUAL);
         }
 
         //Автоматическое задание Атрибута ID
@@ -88,10 +82,9 @@ public class GraphBuilder implements Builder
      * @param atrNodeData - данные дочернего узла
      * @param srcNode     - узел родитель, к которому необходимо добавить потомка.
      * @return полученный узел
-     * */
+     */
     @Override
-    public ContainerNode toIndividualNodeAddAttributeNode(ContainerNode srcNode, String atrNodeData, String value)
-    {
+    public ContainerNode toIndividualNodeAddAttributeNode(ContainerNode srcNode, String atrNodeData, String value) {
         //Создание нового узла значения
         ValueNode valueNode = new ValueNode(value);
 

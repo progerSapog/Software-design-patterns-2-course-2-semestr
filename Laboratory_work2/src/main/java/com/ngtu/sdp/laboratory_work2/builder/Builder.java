@@ -7,15 +7,14 @@ import com.ngtu.sdp.laboratory_work2.nodes.ContainerNode;
  *
  * @see GraphBuilder
  * @see Director
- * */
-public interface Builder
-{
+ */
+public interface Builder {
     /**
      * Сброс строителя, посторение нового графа.
      *
      * @param data - данные корня графа.
      * @return полученный узел
-     * */
+     */
     ContainerNode reset(String data);
 
     /**
@@ -24,7 +23,7 @@ public interface Builder
      * @param childNodeData - данные дочернего узла
      * @param srcNode       - узел родитель, к которому необходимо добавить потомка.
      * @return полученный узел
-     * */
+     */
     ContainerNode toClassNodeAddClassNode(ContainerNode srcNode, String childNodeData);
 
     /**
@@ -33,7 +32,7 @@ public interface Builder
      * @param childNodeData - данные дочернего узла
      * @param srcNode       - узел родитель, к которому необходимо добавить потомка.
      * @return полученный узел
-     * */
+     */
     ContainerNode toClassNodeAddIndividualNode(ContainerNode srcNode, String childNodeData);
 
     /**
@@ -43,6 +42,6 @@ public interface Builder
      * @param atrNodeData - данные дочернего узла
      * @param srcNode     - узел родитель, к которому необходимо добавить потомка.
      * @return полученный узел
-     * */
+     */
     ContainerNode toIndividualNodeAddAttributeNode(ContainerNode srcNode, String atrNodeData, String value);
 }

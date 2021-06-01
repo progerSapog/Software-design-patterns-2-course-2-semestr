@@ -14,7 +14,7 @@ import java.util.*;
  *
  * @see Builder
  * @see GraphBuilder
- * */
+ */
 @Component("director")
 @Scope("singleton")
 public class Director {
@@ -28,16 +28,15 @@ public class Director {
 
     /**
      * Конструктор по умолчанию.
-     * */
+     */
     public Director() {
     }
 
     /**
      * Метод выводящий разделитель при создании узлов
      * Скрыт, т.к. не использутеся напрямую
-     * */
-    private static void printSeparator()
-    {
+     */
+    private static void printSeparator() {
         System.out.println("------------------------------------------------------------------------" +
                 "------------------------");
         System.out.println("\t\t\t\t\t\t\t\t\t" + GREEN + "Создание нового узла" + RESET);
@@ -50,17 +49,15 @@ public class Director {
      * Скрыт, т.к. не использутеся напрямую
      *
      * @param node - узел, ин-ию о котором необходимо вывести.
-     * */
-    private static void printNodeInfo(Node node)
-    {
+     */
+    private static void printNodeInfo(Node node) {
         //Для каждого создающегося в данный момент узла
         //выводим информацию о родителе
         System.out.print(CYAN + "Родитель: " + RESET + node.getData());
 
         //Если тип данного узла ClassNode, то выводим еще и состояние
-        if (node instanceof ClassNode)
-        {
-            System.out.print(" | " + PURPLE + "Статус родителя: " + RESET + ((ClassNode)node).getStateAsString());
+        if (node instanceof ClassNode) {
+            System.out.print(" | " + PURPLE + "Статус родителя: " + RESET + ((ClassNode) node).getStateAsString());
         }
         System.out.println();
         System.out.println("------------------------------------------------------------------------" +
@@ -70,12 +67,11 @@ public class Director {
     /**
      * Метод сборки графа
      *
-     * @return оболочку Optional с родительским узлом
      * @param builder - экземпляр билдера при помощи которого будет производится
-     *                  создание структуры.
-     * */
-    public Optional<ContainerNode> build(Builder builder)
-    {
+     *                создание структуры.
+     * @return оболочку Optional с родительским узлом
+     */
+    public Optional<ContainerNode> build(Builder builder) {
         //Создаем очередь для хранения узлов
         Queue<ContainerNode> nodeQueue = null;
 
@@ -102,15 +98,13 @@ public class Director {
             input = scanner.nextLine();
             System.out.println();
 
-            switch (input)
-            {
+            switch (input) {
                 case ("1"): {
                     nodeQueue = new ArrayDeque<>();
 
                     data = "";
                     System.out.print("Введите имя узла: ");
-                    while (data.isBlank())
-                    {
+                    while (data.isBlank()) {
                         data = scanner.nextLine();
                     }
                     root = builder.reset(data);
@@ -120,14 +114,12 @@ public class Director {
                     input = "q";
                     break;
                 }
-                case ("q"):
-                {
+                case ("q"): {
                     //Если мы вышли на данном шаге, то graphRoot = null
                     //поэтому сразу возращаем null
                     return Optional.empty();
                 }
-                default:
-                {
+                default: {
                     System.out.println(RED + "Ошибка ввода..." + RESET);
                     break;
                 }
@@ -139,8 +131,7 @@ public class Director {
         //Цикл do while
         //пока очередь не опустеет
         //делаем "шаги автомата"
-        do
-        {
+        do {
             printSeparator();
             outputNode = nodeQueue.poll();    //"Вытаскиваем" узел из очереди
 
@@ -149,8 +140,7 @@ public class Director {
 
             //Если "вытащенный" узел имеет тип ClassNode
             //то предлагается создать дочерний подкласс или индивид
-            if (outputNode instanceof ClassNode)
-            {
+            if (outputNode instanceof ClassNode) {
                 //Механизм do while предалагает пользователю повторный ввод
                 //при неверных введенных данных
                 do {
@@ -165,12 +155,10 @@ public class Director {
 
                     switch (input) {
                         //Создание нового подкласса
-                        case ("1"):
-                        {
+                        case ("1"): {
                             data = "";
                             System.out.print("Введите имя узла: ");
-                            while (data.isBlank())
-                            {
+                            while (data.isBlank()) {
                                 data = scanner.nextLine();
                             }
                             inputNode = builder.toClassNodeAddClassNode(outputNode, data);
@@ -180,8 +168,7 @@ public class Director {
                         }
 
                         //Создание нового индивида
-                        case ("2"):
-                        {
+                        case ("2"): {
                             System.out.print("Введите имя индивида: ");
                             data = scanner.nextLine();
                             inputNode = builder.toClassNodeAddIndividualNode(outputNode, data);
@@ -190,12 +177,10 @@ public class Director {
                             nodeQueue.offer(inputNode);
                             break;
                         }
-                        case ("q"):
-                        {
+                        case ("q"): {
                             break;
                         }
-                        default:
-                        {
+                        default: {
                             System.out.println(RED + "Ошибка ввода..." + RESET);
                             break;
                         }
@@ -208,8 +193,7 @@ public class Director {
 
             //Если "вытащенный" узел имеет тип IndividualNode
             //то предлагается добавить атрибут для данного индивида
-            if (outputNode instanceof IndividualNode)
-            {
+            if (outputNode instanceof IndividualNode) {
                 //Механизм do while предалагает пользователю повторный ввод
                 //при неверных введенных данных
                 do {
@@ -221,18 +205,15 @@ public class Director {
                     input = scanner.nextLine();
                     System.out.println();
 
-                    switch (input)
-                    {
+                    switch (input) {
                         //Создание нового атрибута
-                        case ("1"):
-                        {
+                        case ("1"): {
                             data = "";
                             System.out.print("Введите имя атрибута: ");
                             String name = scanner.nextLine();
 
                             System.out.print("Введите значение атрибута: ");
-                            while (data.isBlank())
-                            {
+                            while (data.isBlank()) {
                                 data = scanner.nextLine();
                             }
 

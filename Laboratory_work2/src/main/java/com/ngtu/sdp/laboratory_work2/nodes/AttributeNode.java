@@ -8,14 +8,12 @@ package com.ngtu.sdp.laboratory_work2.nodes;
  * @see ContainerNode
  * @see ClassNode
  * @see IndividualNode
- * */
-public class AttributeNode extends ContainerNode
-{
+ */
+public class AttributeNode extends ContainerNode {
     /**
      * Конструктор по умолчанию
-     * */
-    public AttributeNode()
-    {
+     */
+    public AttributeNode() {
     }
 
     /**
@@ -23,9 +21,8 @@ public class AttributeNode extends ContainerNode
      *
      * @param data   - данные узла
      * @param parent - ссылка на родителя
-     * */
-    public AttributeNode(Node parent, String data)
-    {
+     */
+    public AttributeNode(Node parent, String data) {
         super(parent, data);
     }
 }

@@ -10,17 +10,15 @@ import java.util.List;
  *
  * @see ContainerNode
  * @see IndividualNode
- * */
-public class ClassNode extends ContainerNode
-{
+ */
+public class ClassNode extends ContainerNode {
     private List<ClassNodeStateEnum> state;    //Поле отвечающее за состояния данного узла
 
     /**
      * Конструктор без параметров.
      * Инициализация списка состояний
-     * */
-    public ClassNode()
-    {
+     */
+    public ClassNode() {
         state = new ArrayList<>();
     }
 
@@ -29,9 +27,8 @@ public class ClassNode extends ContainerNode
      *
      * @param data   - данные узла
      * @param states - параметр перемнной длины (автоупаковка в массив незвестного массива)
-     * */
-    public ClassNode(String data, ClassNodeStateEnum... states)
-    {
+     */
+    public ClassNode(String data, ClassNodeStateEnum... states) {
         super(data);
         this.state = new ArrayList<>(Arrays.asList(states));
     }
@@ -42,9 +39,8 @@ public class ClassNode extends ContainerNode
      * @param data   - данные узла
      * @param parent - ссылка на родителя
      * @param states - параметр перемнной длины (автоупаковка в массив незвестного массива)
-     * */
-    public ClassNode(Node parent, String data, ClassNodeStateEnum... states)
-    {
+     */
+    public ClassNode(Node parent, String data, ClassNodeStateEnum... states) {
         super(parent, data);
         this.state = new ArrayList<>(Arrays.asList(states));
     }
@@ -53,19 +49,16 @@ public class ClassNode extends ContainerNode
      * Перегрузка метода добавления дочернего элемента.
      *
      * @param childNode - дочерний узел
-     * */
+     */
     @Override
-    public void addChildNode(Node childNode)
-    {
+    public void addChildNode(Node childNode) {
         super.addChildNode(childNode);
         //Если передан узел ClassNode, то текущий узел получает состояние ИМЕЕТ_ПОДКЛАСС
-        if (childNode instanceof ClassNode)
-        {
+        if (childNode instanceof ClassNode) {
             state.add(ClassNodeStateEnum.HAVE_SUBCLASS);
         }
         //Если передан узел IndividualNode, то текущий узел получает состояние ИМЕЕТ_ИНДИВИДА
-        if (childNode instanceof IndividualNode)
-        {
+        if (childNode instanceof IndividualNode) {
             state.add(ClassNodeStateEnum.HAVE_INDIVIDUAL);
         }
     }
@@ -74,9 +67,8 @@ public class ClassNode extends ContainerNode
      * Возвращает состояние данного узла.
      *
      * @return состояние
-     * */
-    public List<ClassNodeStateEnum> getState()
-    {
+     */
+    public List<ClassNodeStateEnum> getState() {
         return state;
     }
 
@@ -84,12 +76,10 @@ public class ClassNode extends ContainerNode
      * Возвращает состояние данного узла в виде строки.
      *
      * @return в виде строки.
-     * */
-    public String getStateAsString()
-    {
+     */
+    public String getStateAsString() {
         StringBuilder stateStr = new StringBuilder();
-        for (int i = 0; i < state.size() - 1; i++)
-        {
+        for (int i = 0; i < state.size() - 1; i++) {
             stateStr.append(state.get(i).toString()).append(", ");
         }
 
@@ -102,9 +92,8 @@ public class ClassNode extends ContainerNode
      * Установливает состояние узла
      *
      * @param state - состояние, которое необходимо задать.
-     * */
-    public void addState(ClassNodeStateEnum state)
-    {
+     */
+    public void addState(ClassNodeStateEnum state) {
         this.state.add(state);
     }
 }

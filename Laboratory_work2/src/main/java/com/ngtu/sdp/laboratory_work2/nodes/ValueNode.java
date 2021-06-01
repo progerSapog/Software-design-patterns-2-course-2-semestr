@@ -6,24 +6,21 @@ package com.ngtu.sdp.laboratory_work2.nodes;
  *
  * @see Leaf
  * @see AttributeNode
- * */
-public class ValueNode extends Leaf
-{
+ */
+public class ValueNode extends Leaf {
     /**
      * Конструктор по умолчанию
      */
-    public ValueNode()
-    {
+    public ValueNode() {
         super();
     }
 
     /**
      * Конструктор с параметрами
      *
-     * @param data   - данные узла
+     * @param data - данные узла
      */
-    public ValueNode(String data)
-    {
+    public ValueNode(String data) {
         super(data);
     }
 
@@ -33,8 +30,7 @@ public class ValueNode extends Leaf
      * @param data   - данные узла
      * @param parent - ссылка на родителя
      */
-    public ValueNode(Node parent, String data)
-    {
+    public ValueNode(Node parent, String data) {
         super(parent, data);
     }
 }
