@@ -1,7 +1,8 @@
 package com.ngtu.sdp.loboratory_worl3.generator;
 
 import com.ngtu.sdp.loboratory_worl3.query.Query;
-import com.ngtu.sdp.loboratory_worl3.builder.Builder;
+
+import java.util.List;
 
 /**
  * Интерфейс генератора.
@@ -10,5 +11,7 @@ import com.ngtu.sdp.loboratory_worl3.builder.Builder;
  * */
 public interface Generator<T>
 {
-    T generate(Query query, Builder builder);
+    T generate(Query query);
+
+    void setResList(List<T> readyList);
 }
