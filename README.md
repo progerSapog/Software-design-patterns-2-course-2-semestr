@@ -53,4 +53,14 @@ Spring Framework 5
   <br>
 
 **Диаграмма классов**  
-![Диаграмма классов ЛР2](https://github.com/progerSapog/Software-design-patterns-2-course-2-semestr/blob/main/%D0%9E%D1%84%D0%BE%D1%80%D0%BC%D0%BB%D0%B5%D0%BD%D0%B8%D0%B5(png%2C%20svg)/LW2/nodesChange.svg)
+![Диаграмма классов ЛР2](https://github.com/progerSapog/Software-design-patterns-2-course-2-semestr/blob/main/%D0%9E%D1%84%D0%BE%D1%80%D0%BC%D0%BB%D0%B5%D0%BD%D0%B8%D0%B5(png%2C%20svg)/LW2/nodesChange.svg)  
+
+### Лабораторная работа №3
++ Java 11.0.11
+    + ООП
+    + Анонимные класс
+    + Лямбда функции
+    + Stream API
+    + Multithreading
+**Диаграмма классов**  
+![Диаграмма классов ЛР3](https://github.com/progerSapog/Software-design-patterns-2-course-2-semestr/blob/main/%D0%9E%D1%84%D0%BE%D1%80%D0%BC%D0%BB%D0%B5%D0%BD%D0%B8%D0%B5(png%2C%20svg)/LW3/диаграмма3.png)  
